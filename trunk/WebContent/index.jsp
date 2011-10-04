@@ -91,7 +91,7 @@ board.addLetters(
 	List<Word> words = null;
 	for (int i=0; i < nrOfTests; i++) {
 		timing.start(timerGroup, timerId);
-		words = new Solver().solve(board, tray, "en-twl06", "en-wordfeud");
+		words = new Solver().solve(board, tray, "en-twl06", "en-wordfeud2");
 		timing.stop(timerGroup, timerId);
 	}
 	
