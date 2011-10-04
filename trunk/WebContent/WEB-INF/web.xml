@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>scrabble</display-name>
+
+	<!-- *********** -->
+	<!--  LISTENERS  -->
+	<!-- *********** -->
+
+
+	<listener>
+		<description>Loads the configuration from the ApplicationConfiguration.xml</description>
+		<listener-class>org.solvr.scrabble.config.ConfigListener</listener-class>
+	</listener>
+	<listener>
+		<description>Loads the DictionarySingleton on server start</description>
+		<listener-class>org.solvr.scrabble.dict.DictionaryListener</listener-class>
+	</listener>
+	<listener>
+		<description>Loads the ScoringSingleton on server start</description>
+		<listener-class>org.solvr.scrabble.scoring.ScoringListener</listener-class>
+	</listener>
+	
+</web-app>
