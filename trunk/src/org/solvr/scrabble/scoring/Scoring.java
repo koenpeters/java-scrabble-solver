@@ -1,5 +1,7 @@
 package org.solvr.scrabble.scoring;
 
+import java.util.Arrays;
+
 import org.apache.log4j.Logger;
 import org.solvr.scrabble.datastructures.Board;
 import org.solvr.scrabble.util.CharUtil;
@@ -11,10 +13,16 @@ public class Scoring {
 
 	Logger log = Logger.getLogger(Scoring.class);
 	
+	private static final int IS_NOT_SET = -1;
+	
 	int[] pointsPerTile = new int[26];
-	int bonus;
-	int traySize;
-	Board board;
+	int bonus = IS_NOT_SET;
+	int traySize = IS_NOT_SET;
+	Board board = null;
+	
+	public Scoring() {
+		Arrays.fill(pointsPerTile, IS_NOT_SET);
+	}
 	
 	public Integer getPoints(char letter) {
 		return pointsPerTile[CharUtil.toOridinal(letter)];
@@ -46,6 +54,17 @@ public class Scoring {
 	
 	public void setBoard(Board board) {
 		this.board = board;
+	}
+
+	public boolean areAllValuesSet() {
+		boolean result = true;
+		result = result && bonus != IS_NOT_SET;
+		result = result && traySize != IS_NOT_SET;
+		result = result && board != null;
+		for (int p: pointsPerTile) {
+			result = result && p != IS_NOT_SET;
+		}
+		return result;
 	}
 	
 	@Override

@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.management.RuntimeErrorException;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.solvr.scrabble.config.ConfigListener;
@@ -123,6 +125,11 @@ public class ScoringSingleton  {
 			throw new RuntimeException(e);
 		}
 
+		if (!scoring.areAllValuesSet()) {
+			throw new RuntimeException("Not all Scoring fields of " + scoringFile.getName() 
+					+ " have been set. Cannot start application.");
+		}
+		
 		timing.stop(timingGroup, timingId);
 		log.info("Read " + scoringFile.getName() + " in " + timing.getTime(timingGroup, timingId)+ " msec | " + scoring.toString());
 		
