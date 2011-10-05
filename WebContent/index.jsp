@@ -1,4 +1,4 @@
-<%@page import="org.solvr.scrabble.datastructures.Coordinate"%><%@page import="org.solvr.scrabble.datastructures.Board"%><%@page import="org.solvr.scrabble.util.TimingSingleton"%><%@page import="org.solvr.scrabble.scoring.Scoring"%><%@page import="org.solvr.scrabble.scoring.ScoringSingleton"%><%@page import="java.util.Date"%><%@page import="org.solvr.scrabble.datastructures.Box"%><%@page import="org.solvr.scrabble.datastructures.Word"%><%@page import="java.util.ArrayList"%><%@page import="org.solvr.scrabble.datastructures.BoxTypeEnum"%><%@page import="java.util.List"%><%@page import="org.solvr.scrabble.dict.DictionarySingleton"%><%@page import="org.solvr.scrabble.config.ConfigListener"%><%@page import="org.solvr.scrabble.Solver"%>
+<%@page import="org.solvr.scrabble.datastructures.Coordinate"%><%@page import="org.solvr.scrabble.datastructures.Board"%><%@page import="org.solvr.scrabble.util.TimingSingleton"%><%@page import="org.solvr.scrabble.scoring.Scoring"%><%@page import="org.solvr.scrabble.scoring.ScoringSingleton"%><%@page import="org.solvr.scrabble.datastructures.Box"%><%@page import="org.solvr.scrabble.datastructures.Word"%><%@page import="java.util.ArrayList"%><%@page import="org.solvr.scrabble.datastructures.BoxTypeEnum"%><%@page import="java.util.List"%><%@page import="org.solvr.scrabble.dict.DictionarySingleton"%><%@page import="org.solvr.scrabble.config.ConfigListener"%><%@page import="org.solvr.scrabble.Solver"%>
 <%
 	ScoringSingleton scoringSingleton = ScoringSingleton.getInstance();
 	Scoring scoring = scoringSingleton.getScoringSystem("en-wordfeud");
@@ -91,7 +91,7 @@ board.addLetters(
 	List<Word> words = null;
 	for (int i=0; i < nrOfTests; i++) {
 		timing.start(timerGroup, timerId);
-		words = new Solver().solve(board, tray, "en-twl06", "en-wordfeud2");
+		words = new Solver().solve(board, tray, "en-twl06", "en-wordfeud");
 		timing.stop(timerGroup, timerId);
 	}
 	
