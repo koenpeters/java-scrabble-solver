@@ -1,4 +1,4 @@
-package org.solvr.scrabble.imagej;
+package nl.cubix.scrabble.imagej;
 
 import ij.*;
 

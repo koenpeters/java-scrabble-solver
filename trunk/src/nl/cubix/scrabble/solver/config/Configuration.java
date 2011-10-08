@@ -1,9 +1,10 @@
-package org.solvr.scrabble.solver.config;
+package nl.cubix.scrabble.solver.config;
+
+import nl.cubix.scrabble.solver.util.ParamValidationUtil;
 
 import org.apache.commons.configuration.AbstractConfiguration;
 import org.apache.log4j.Logger;
 
-import org.solvr.scrabble.solver.util.ParamValidationUtil;
 
 /**
  * This class contains all the configuration of this application

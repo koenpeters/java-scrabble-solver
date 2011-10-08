@@ -1,4 +1,4 @@
-package org.solvr.scrabble.solver.datastructures;
+package nl.cubix.scrabble.solver.datastructures;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;

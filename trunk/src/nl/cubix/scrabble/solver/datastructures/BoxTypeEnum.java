@@ -1,4 +1,4 @@
-package org.solvr.scrabble.solver.datastructures;
+package nl.cubix.scrabble.solver.datastructures;
 
 /**
  * All possible types of boxes that can exist on a board

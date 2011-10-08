@@ -1,10 +1,11 @@
-package org.solvr.scrabble.solver.datastructures;
+package nl.cubix.scrabble.solver.datastructures;
 
 import java.util.List;
 
+import nl.cubix.scrabble.solver.scoring.Scoring;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.solvr.scrabble.solver.scoring.Scoring;
 
 /**
  * This class models a word that is placed on a scrabble board.

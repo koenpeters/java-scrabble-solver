@@ -1,4 +1,4 @@
-package org.solvr.scrabble.solver.dict;
+package nl.cubix.scrabble.solver.dict;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,11 +11,12 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import nl.cubix.scrabble.solver.config.ConfigListener;
+import nl.cubix.scrabble.solver.util.ParamValidationUtil;
+import nl.cubix.scrabble.solver.util.TimingSingleton;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
-import org.solvr.scrabble.solver.config.ConfigListener;
-import org.solvr.scrabble.solver.util.ParamValidationUtil;
-import org.solvr.scrabble.solver.util.TimingSingleton;
 
 /**
  * @author Koen Peters, Cubix Concepts

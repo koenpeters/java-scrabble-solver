@@ -1,4 +1,4 @@
-package org.solvr.scrabble.solver.util;
+package nl.cubix.scrabble.solver.util;
 
 /**
  * @author Koen Peters, Cubix Concepts
