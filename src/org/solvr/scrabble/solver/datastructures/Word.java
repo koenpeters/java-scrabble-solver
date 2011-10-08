@@ -1,10 +1,10 @@
-package org.solvr.scrabble.datastructures;
+package org.solvr.scrabble.solver.datastructures;
 
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.solvr.scrabble.scoring.Scoring;
+import org.solvr.scrabble.solver.scoring.Scoring;
 
 /**
  * This class models a word that is placed on a scrabble board.

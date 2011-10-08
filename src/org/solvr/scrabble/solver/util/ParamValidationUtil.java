@@ -1,4 +1,4 @@
-package org.solvr.scrabble.util;
+package org.solvr.scrabble.solver.util;
 
 import java.io.File;
 import java.util.Collection;

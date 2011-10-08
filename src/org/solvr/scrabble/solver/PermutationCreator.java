@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.solvr.scrabble.datastructures.Board;
-import org.solvr.scrabble.datastructures.Coordinate;
-import org.solvr.scrabble.datastructures.Word;
-import org.solvr.scrabble.datastructures.Word.DirectionEnum;
-import org.solvr.scrabble.dict.DictionaryNode;
-import org.solvr.scrabble.dict.DictionarySingleton;
-import org.solvr.scrabble.util.ParamValidationUtil;
+import org.solvr.scrabble.solver.datastructures.Board;
+import org.solvr.scrabble.solver.datastructures.Coordinate;
+import org.solvr.scrabble.solver.datastructures.Word;
+import org.solvr.scrabble.solver.datastructures.Word.DirectionEnum;
+import org.solvr.scrabble.solver.dict.DictionaryNode;
+import org.solvr.scrabble.solver.dict.DictionarySingleton;
+import org.solvr.scrabble.solver.util.ParamValidationUtil;
 
 
 /**

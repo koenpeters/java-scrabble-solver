@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.solvr.scrabble.datastructures.Board;
-import org.solvr.scrabble.datastructures.Word;
-import org.solvr.scrabble.dict.DictionaryNode;
-import org.solvr.scrabble.dict.DictionarySingleton;
-import org.solvr.scrabble.scoring.Scoring;
-import org.solvr.scrabble.scoring.ScoringSingleton;
-import org.solvr.scrabble.util.ParamValidationUtil;
+import org.solvr.scrabble.solver.datastructures.Board;
+import org.solvr.scrabble.solver.datastructures.Word;
+import org.solvr.scrabble.solver.dict.DictionaryNode;
+import org.solvr.scrabble.solver.dict.DictionarySingleton;
+import org.solvr.scrabble.solver.scoring.Scoring;
+import org.solvr.scrabble.solver.scoring.ScoringSingleton;
+import org.solvr.scrabble.solver.util.ParamValidationUtil;
 
 
 /**

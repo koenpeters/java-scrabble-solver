@@ -1,4 +1,4 @@
-package org.solvr.scrabble.datastructures;
+package org.solvr.scrabble.solver.datastructures;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
-import org.solvr.scrabble.datastructures.Word.DirectionEnum;
-import org.solvr.scrabble.scoring.Scoring;
-import org.solvr.scrabble.util.CharUtil;
+import org.solvr.scrabble.solver.datastructures.Word.DirectionEnum;
+import org.solvr.scrabble.solver.scoring.Scoring;
+import org.solvr.scrabble.solver.util.CharUtil;
 
 /**
  * This class models a scrabble board
