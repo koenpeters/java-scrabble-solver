@@ -1,4 +1,4 @@
-package nl.cubix.scrabble.imagej;
+package nl.cubix.scrabble.boardimporter;
 
 import ij.*;
 
