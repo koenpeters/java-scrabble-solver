@@ -1,4 +1,4 @@
-package org.solvr.scrabble;
+package org.solvr.scrabble.solver;
 
 import java.util.Comparator;
 import org.solvr.scrabble.datastructures.Word;
