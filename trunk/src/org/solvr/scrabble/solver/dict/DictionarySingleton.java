@@ -1,4 +1,4 @@
-package org.solvr.scrabble.dict;
+package org.solvr.scrabble.solver.dict;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,9 +13,9 @@ import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
-import org.solvr.scrabble.config.ConfigListener;
-import org.solvr.scrabble.util.ParamValidationUtil;
-import org.solvr.scrabble.util.TimingSingleton;
+import org.solvr.scrabble.solver.config.ConfigListener;
+import org.solvr.scrabble.solver.util.ParamValidationUtil;
+import org.solvr.scrabble.solver.util.TimingSingleton;
 
 /**
  * @author Koen Peters, Cubix Concepts

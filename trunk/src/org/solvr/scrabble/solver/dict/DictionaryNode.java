@@ -1,9 +1,9 @@
-package org.solvr.scrabble.dict;
+package org.solvr.scrabble.solver.dict;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.solvr.scrabble.util.CharUtil;
+import org.solvr.scrabble.solver.util.CharUtil;
 
 /**
  * @author Koen Peters, Cubix Concepts

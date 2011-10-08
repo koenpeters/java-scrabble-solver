@@ -1,10 +1,10 @@
-package org.solvr.scrabble.scoring;
+package org.solvr.scrabble.solver.scoring;
 
 import java.util.Arrays;
 
 import org.apache.log4j.Logger;
-import org.solvr.scrabble.datastructures.Board;
-import org.solvr.scrabble.util.CharUtil;
+import org.solvr.scrabble.solver.datastructures.Board;
+import org.solvr.scrabble.solver.util.CharUtil;
 
 /**
  * @author Koen Peters, Cubix Concepts

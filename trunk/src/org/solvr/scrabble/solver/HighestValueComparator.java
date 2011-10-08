@@ -1,8 +1,8 @@
 package org.solvr.scrabble.solver;
 
 import java.util.Comparator;
-import org.solvr.scrabble.datastructures.Word;
-import org.solvr.scrabble.scoring.Scoring;
+import org.solvr.scrabble.solver.datastructures.Word;
+import org.solvr.scrabble.solver.scoring.Scoring;
 
 
 /**
