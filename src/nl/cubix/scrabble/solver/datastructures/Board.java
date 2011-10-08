@@ -1,14 +1,15 @@
-package org.solvr.scrabble.solver.datastructures;
+package nl.cubix.scrabble.solver.datastructures;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.cubix.scrabble.solver.datastructures.Word.DirectionEnum;
+import nl.cubix.scrabble.solver.scoring.Scoring;
+import nl.cubix.scrabble.solver.util.CharUtil;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
-import org.solvr.scrabble.solver.datastructures.Word.DirectionEnum;
-import org.solvr.scrabble.solver.scoring.Scoring;
-import org.solvr.scrabble.solver.util.CharUtil;
 
 /**
  * This class models a scrabble board

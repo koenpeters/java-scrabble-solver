@@ -1,4 +1,4 @@
-package org.solvr.scrabble.solver.config;
+package nl.cubix.scrabble.solver.config;
 
 import java.net.URL;
 

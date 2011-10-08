@@ -1,17 +1,18 @@
-package org.solvr.scrabble.solver;
+package nl.cubix.scrabble.solver;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.cubix.scrabble.solver.datastructures.Board;
+import nl.cubix.scrabble.solver.datastructures.Coordinate;
+import nl.cubix.scrabble.solver.datastructures.Word;
+import nl.cubix.scrabble.solver.datastructures.Word.DirectionEnum;
+import nl.cubix.scrabble.solver.dict.DictionaryNode;
+import nl.cubix.scrabble.solver.dict.DictionarySingleton;
+import nl.cubix.scrabble.solver.util.ParamValidationUtil;
+
 import org.apache.log4j.Logger;
-import org.solvr.scrabble.solver.datastructures.Board;
-import org.solvr.scrabble.solver.datastructures.Coordinate;
-import org.solvr.scrabble.solver.datastructures.Word;
-import org.solvr.scrabble.solver.datastructures.Word.DirectionEnum;
-import org.solvr.scrabble.solver.dict.DictionaryNode;
-import org.solvr.scrabble.solver.dict.DictionarySingleton;
-import org.solvr.scrabble.solver.util.ParamValidationUtil;
 
 
 /**

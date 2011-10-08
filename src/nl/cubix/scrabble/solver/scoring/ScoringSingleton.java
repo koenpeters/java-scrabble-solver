@@ -1,4 +1,4 @@
-package org.solvr.scrabble.solver.scoring;
+package nl.cubix.scrabble.solver.scoring;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,13 +14,14 @@ import java.util.Set;
 
 import javax.management.RuntimeErrorException;
 
+import nl.cubix.scrabble.solver.config.ConfigListener;
+import nl.cubix.scrabble.solver.datastructures.Board;
+import nl.cubix.scrabble.solver.datastructures.Box;
+import nl.cubix.scrabble.solver.datastructures.BoxTypeEnum;
+import nl.cubix.scrabble.solver.util.TimingSingleton;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
-import org.solvr.scrabble.solver.config.ConfigListener;
-import org.solvr.scrabble.solver.datastructures.Board;
-import org.solvr.scrabble.solver.datastructures.Box;
-import org.solvr.scrabble.solver.datastructures.BoxTypeEnum;
-import org.solvr.scrabble.solver.util.TimingSingleton;
 
 /**
  * @author Koen Peters, Cubix Concepts

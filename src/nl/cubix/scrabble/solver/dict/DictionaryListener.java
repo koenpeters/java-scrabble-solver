@@ -1,23 +1,23 @@
-package org.solvr.scrabble.solver.scoring;
+package nl.cubix.scrabble.solver.dict;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 /**
- * This class is a listener that creates and destroys all the scoring systems.
+ * This class is a listener that creates and destroys all the dictionaries.
  * 
  * @author Koen Peters, Cubix Concepts
  */
-public class ScoringListener implements ServletContextListener {
+public class DictionaryListener implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
-		ScoringSingleton.freeUpSpace();
+		DictionarySingleton.freeUpSpace();
 	}
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		ScoringSingleton.getInstance();
+		DictionarySingleton.getInstance();
 	}
 
 }

@@ -1,8 +1,9 @@
-package org.solvr.scrabble.solver;
+package nl.cubix.scrabble.solver;
 
 import java.util.Comparator;
-import org.solvr.scrabble.solver.datastructures.Word;
-import org.solvr.scrabble.solver.scoring.Scoring;
+
+import nl.cubix.scrabble.solver.datastructures.Word;
+import nl.cubix.scrabble.solver.scoring.Scoring;
 
 
 /**
