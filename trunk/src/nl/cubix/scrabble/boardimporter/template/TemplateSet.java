@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 
 import nl.cubix.scrabble.solver.datastructures.BoxTypeEnum;
 
-class TemplateSet {
+public class TemplateSet {
 	
 	private TemplateType templateType;
 	private Map<Character, ImagePlus> boardLetters = new HashMap<Character, ImagePlus>();
@@ -26,24 +26,24 @@ class TemplateSet {
 	/*  PACKAGE PRIVATE METHODS  */
 	/* ************************* */
 	
-	TemplateSet(TemplateType templateType) {
+	public TemplateSet(TemplateType templateType) {
 		super();
 		this.templateType = templateType;
 	}
 	
-	TemplateType getTemplateType() {
+	public TemplateType getTemplateType() {
 		return templateType;
 	}
 
-	Map<Character, ImagePlus> getBoardLetters() {
+	public Map<Character, ImagePlus> getBoardLetters() {
 		return boardLetters;
 	}
 	
-	Map<Character, ImagePlus> getTrayletters() {
+	public Map<Character, ImagePlus> getTrayletters() {
 		return trayletters;
 	}
 	
-	Map<BoxTypeEnum, ImagePlus> getBoardTiles() {
+	public Map<BoxTypeEnum, ImagePlus> getBoardTiles() {
 		return boardTiles;
 	}
 

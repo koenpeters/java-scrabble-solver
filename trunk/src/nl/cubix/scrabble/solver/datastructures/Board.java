@@ -156,6 +156,32 @@ public class Board {
 	}
 	
 	/**
+	 * @param scoringSystem
+	 * @return	A box with the same dimensions as the board of the scoringsystem, but with all letters and 
+	 * 			special box values removed. Only the starting position is added in the center of the board
+	 */
+	public static Board createEmptyBoard(Scoring scoringSystem) {
+		Board result;
+		try {
+			result = scoringSystem.getBoard().clone();
+		} catch (CloneNotSupportedException e) {
+			throw new RuntimeException(e);
+		}
+		
+		result.isEmpty = true;
+		for (int row=0; row < result.dimension; row++) {
+			for (int col=0; col < result.dimension; col++) {
+				if (row == result.dimension / 2 + 1 && col == result.dimension / 2 + 1) {
+					result.setBox(row, col, new Box(BoxTypeEnum.STARTING_POSITION));
+				} else {
+					result.setBox(row, col, new Box(BoxTypeEnum.EMPTY));
+				}
+			}
+		}
+		return result;
+	}
+	
+	/**
 	 * @return	A string representation of this board. Only the letters will be visible, not the special meaning
 	 * 			of the boxes.
 	 */

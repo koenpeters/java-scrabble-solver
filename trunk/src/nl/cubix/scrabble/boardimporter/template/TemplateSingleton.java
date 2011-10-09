@@ -39,6 +39,10 @@ public class TemplateSingleton  {
 		SingletonHolder.instance.templates = null;
 	}
 	
+	public TemplateSet getTemplateSet(TemplateType templateType) {
+		return templates.get(templateType); 
+	}
+	
 		
 	/* ************************ */
 	/*		 PRIVATE METHODS	 */
