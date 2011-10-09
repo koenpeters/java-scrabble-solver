@@ -8,4 +8,5 @@
 	<data-folder>c:\data\solvr\</data-folder>
 	<dictionaries-folder>dictionaries\</dictionaries-folder>	
 	<scoring-folder>scoring\</scoring-folder>	
+	<templates-folder>templates\</templates-folder>	
 </configuration>
