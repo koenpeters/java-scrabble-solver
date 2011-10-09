@@ -17,6 +17,7 @@ public class Configuration {
 	private String dataFolder;
 	private String dictionariesFolder;
 	private String scoringFolder;
+	private String templatesFolder;
 	
 	public Configuration(AbstractConfiguration config) {
 		logger.info("starting reading ApplicationConfiguration");
@@ -32,6 +33,10 @@ public class Configuration {
 		this.scoringFolder = config.getString("scoring-folder");
 		ParamValidationUtil.validateAsADirectory("", getScoringFolder(), false);
 		logger.info("Setting scoringFolder to " + this.scoringFolder);
+		
+		this.templatesFolder = config.getString("templates-folder");
+		ParamValidationUtil.validateAsADirectory("", getTemplatesFolder(), false);
+		logger.info("Setting templatesFolder to " + this.templatesFolder);
 
 		
 		logger.info("finished reading ApplicationConfiguration");
@@ -47,6 +52,10 @@ public class Configuration {
 	
 	public String getScoringFolder() {
 		return getDataFolder() +scoringFolder;
+	}
+	
+	public String getTemplatesFolder() {
+		return getDataFolder() + templatesFolder;
 	}
 
 }

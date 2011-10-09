@@ -6,18 +6,22 @@
 	<!--  LISTENERS  -->
 	<!-- *********** -->
 
-
 	<listener>
 		<description>Loads the configuration from the ApplicationConfiguration.xml</description>
-		<listener-class>org.solvr.scrabble.config.ConfigListener</listener-class>
+		<listener-class>nl.cubix.scrabble.solver.config.ConfigListener</listener-class>
 	</listener>
 	<listener>
+		<description>Loads the TemplateSingleton on server start</description>
+		<listener-class>nl.cubix.scrabble.boardimporter.template.TemplateListener</listener-class>
+	</listener>
+<!--
+	<listener>
 		<description>Loads the DictionarySingleton on server start</description>
-		<listener-class>org.solvr.scrabble.dict.DictionaryListener</listener-class>
+		<listener-class>nl.cubix.scrabble.solver.dict.DictionaryListener</listener-class>
 	</listener>
 	<listener>
 		<description>Loads the ScoringSingleton on server start</description>
-		<listener-class>org.solvr.scrabble.scoring.ScoringListener</listener-class>
+		<listener-class>nl.cubix.scrabble.solver.scoring.ScoringListener</listener-class>
 	</listener>
-	
+-->
 </web-app>

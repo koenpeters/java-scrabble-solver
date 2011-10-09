@@ -1,7 +1,10 @@
 package nl.cubix.scrabble.solver.util;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -220,9 +223,9 @@ public class TimingSingleton {
 							.append("\t").append(times[i]) 
 							.append("\t").append(Math.round(percentage)).append("%")
 							.append("\t").append(nrOfMeasurement[i]) 
-							.append("\t").append(avg)
-							.append("\t").append(max[i])
-							.append("\t").append(min[i])
+							.append("\t").append(Math.round(avg))
+							.append("\t").append(Math.round(max[i]))
+							.append("\t").append(Math.round(min[i]))
 							.append("\t").append(Math.round(relativeFactor * percentage))
 							.append("\n");
 				}
