@@ -1,10 +1,7 @@
 package nl.cubix.scrabble.solver.util;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -108,6 +105,30 @@ public class TimingSingleton {
 
 	public String toString(String group) {
 		return getGroup(group).toString();
+	}
+	
+	public void resetAll(Object object) {
+		resetAll(object.getClass().toString());
+	}
+	
+	public void reset(Object object, int id) {
+		reset(object.getClass().toString(), id);
+	}
+	
+	public void start(Object object, int id) {
+		start(object.getClass().toString(), id);
+	}
+	
+	public void stop(Object object, int id) {
+		stop(object.getClass().toString(), id);
+	}
+	
+	public Long getTime(Object object, int id) {
+		return getTime(object.getClass().toString(), id);
+	}
+	
+	public String toString(Object object) {
+		return toString(object.getClass().toString());
 	}
 	
 	private TimingGroup getGroup(String group) {

@@ -1,6 +1,6 @@
-<%@page import="nl.cubix.scrabble.boardimporter.TemplateMatcher"%><%	
+<%@page import="java.io.File"%><%@page import="nl.cubix.scrabble.boardimporter.BoardExtracter"%><%@page import="nl.cubix.scrabble.boardimporter.TemplateMatcher"%><%	
 
-	TemplateMatcher tm = new TemplateMatcher();
-	tm.test();
+	BoardExtracter be = new BoardExtracter();
+	be.extract(new File("c:\\board.gif"));
 	
 %>
