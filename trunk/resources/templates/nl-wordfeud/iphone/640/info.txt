@@ -1,0 +1,3 @@
+screenWidth=640
+boardOffSet=129
+trayOffset=775

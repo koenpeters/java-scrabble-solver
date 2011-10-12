@@ -97,4 +97,9 @@ public class Box {
 		result.isJoker = isJoker;
 		return result;
 	}
+	
+	@Override
+	public String toString() {
+		return  boxTypeEnum + ", " + character + ", " + isJoker;
+	}
 }

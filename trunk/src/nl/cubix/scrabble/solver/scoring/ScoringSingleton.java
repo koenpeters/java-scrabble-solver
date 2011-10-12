@@ -156,13 +156,13 @@ public class ScoringSingleton  {
 			
 			String value = parts[1];
 			
-			if (key.equals("bonus")) {
+			if (key.equalsIgnoreCase("bonus")) {
 				scoring.setBonus(parseInteger(value, line, scoringFile));
 				
-			} else if (key.equals("traysize")) {
+			} else if (key.equalsIgnoreCase("traysize")) {
 				scoring.setTraySize(parseInteger(value, line, scoringFile));
 
-			} else if (key.equals("board")) {
+			} else if (key.equalsIgnoreCase("board")) {
 				scoring.setBoard(parseBoard(value, line, scoringFile));
 				
 			} else  if (key.length() == 1) {
