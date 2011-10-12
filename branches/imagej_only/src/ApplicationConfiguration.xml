@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+	<!--
+		This configuration can be overruled by another xml file.
+		Just copy this file into the directory as specified in 'config.xml and change any values you like'
+	-->
+
+	<data-folder>c:\data\solvr\</data-folder>
+	<dictionaries-folder>dictionaries\</dictionaries-folder>	
+	<scoring-folder>scoring\</scoring-folder>	
+	<templates-folder>templates\</templates-folder>	
+</configuration>

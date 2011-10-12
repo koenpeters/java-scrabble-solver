@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+	<!--
+		The system properties have to be loaded to support configurations like '${jboss.server.home.dir'.
+		This file has the higest priority and its properties cannot be overwritten
+	 -->
+	<xml fileName="/var/data/conf/solvr/ApplicationConfiguration.xml" optional="true" />
+	<xml fileName="C:/data/conf/solvr/ApplicationConfiguration.xml" optional="true" />
+	<xml fileName="C:/cubix/data/conf/solvr/ApplicationConfiguration.xml" optional="true" />
+	<xml fileName="ApplicationConfiguration.xml" />
+</configuration>
