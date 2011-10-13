@@ -17,7 +17,7 @@ public class Configuration {
 	private String dataFolder;
 	private String dictionariesFolder;
 	private String scoringFolder;
-	private String templatesFolder;
+	private DeviceConfig deviceConfig;
 	
 	public Configuration(AbstractConfiguration config) {
 		logger.info("starting reading ApplicationConfiguration");
@@ -34,11 +34,9 @@ public class Configuration {
 		ParamValidationUtil.validateAsADirectory("", getScoringFolder(), false);
 		logger.info("Setting scoringFolder to " + this.scoringFolder);
 		
-		this.templatesFolder = config.getString("templates-folder");
-		ParamValidationUtil.validateAsADirectory("", getTemplatesFolder(), false);
-		logger.info("Setting templatesFolder to " + this.templatesFolder);
+		this.deviceConfig = new DeviceConfig(config);
+		logger.info("Setting deviceConfig to " + this.deviceConfig.toString());
 
-		
 		logger.info("finished reading ApplicationConfiguration");
 	}
 	
@@ -54,8 +52,8 @@ public class Configuration {
 		return getDataFolder() +scoringFolder;
 	}
 	
-	public String getTemplatesFolder() {
-		return getDataFolder() + templatesFolder;
+	public DeviceConfig getDeviceConfig() {
+		return deviceConfig;
 	}
-
+	
 }
