@@ -7,6 +7,22 @@
 
 	<data-folder>c:\data\solvr\</data-folder>
 	<dictionaries-folder>dictionaries\</dictionaries-folder>	
-	<scoring-folder>scoring\</scoring-folder>	
-	<templates-folder>templates\</templates-folder>	
+	<scoring-folder>scoring\</scoring-folder>
+	<device-config>
+		<device>
+			<game-type>nl-wordfeud</game-type>
+			<device-type>iphone</device-type>
+			<screen-width>640</screen-width>
+			<board-crop-x>0</board-crop-x>
+			<board-crop-y>128</board-crop-y>
+			<board-crop-width>640</board-crop-width>
+			<board-crop-height>639</board-crop-height>
+			<board-box-width>42.66667</board-box-width>
+			<tray-crop-x>0</tray-crop-x>
+			<tray-crop-y>775</tray-crop-y>
+			<tray-crop-width>640</tray-crop-width>
+			<tray-crop-height>90</tray-crop-height>
+			<tray-box-width>91.429</tray-box-width>
+		</device>
+	</device-config>
 </configuration>

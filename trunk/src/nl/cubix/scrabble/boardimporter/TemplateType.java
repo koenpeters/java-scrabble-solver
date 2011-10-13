@@ -1,5 +1,10 @@
 package nl.cubix.scrabble.boardimporter;
 
+import nl.cubix.scrabble.solver.config.ConfigListener;
+import nl.cubix.scrabble.solver.config.Device;
+import nl.cubix.scrabble.solver.config.DeviceConfig;
+
+import org.apache.commons.configuration.event.ConfigurationListener;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -28,6 +33,12 @@ public class TemplateType {
 	
 	public String getDeviceType() {
 		return deviceType;
+	}
+	
+
+	public Device getDevice() {
+		DeviceConfig deviceConfig = ConfigListener.getConfiguration().getDeviceConfig(); 
+		return deviceConfig.getDevice(gameType, deviceType, screenWidth);
 	}
 	
 	@Override
