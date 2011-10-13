@@ -6,61 +6,41 @@ public class Device {
 	private String gameType;
 	private String deviceType;
 	private int screenWidth;
-	private int boardCropX;
-	private int boardCropY;
-	private int boardCropWidth;
-	private int boardCropHeight;
 	private float boardBoxWidth;
-	private int trayCropX;
-	private int trayCropY;
-	private int trayCropWidth;
-	private int trayCropHeight;
 	private float trayBoxWidth;
+	private CropRectangle boardCrop; 
+	private CropRectangle boardBoxCrop; 
+	private CropRectangle trayCrop; 
+	private CropRectangle trayBoxCrop; 
 	
 	public Device(String prefix, AbstractConfiguration config) {
 		this.gameType = config.getString(prefix + "game-type");
 		this.deviceType = config.getString(prefix + "device-type");
 		this.screenWidth = config.getInt(prefix + "screen-width");
-		this.boardCropX = config.getInt(prefix + "board-crop-x");
-		this.boardCropY = config.getInt(prefix + "board-crop-y");
-		this.boardCropWidth = config.getInt(prefix + "board-crop-width");
-		this.boardCropHeight = config.getInt(prefix + "board-crop-height");
 		this.boardBoxWidth = config.getFloat(prefix + "board-box-width");
-		this.trayCropX = config.getInt(prefix + "tray-crop-x");
-		this.trayCropY = config.getInt(prefix + "tray-crop-y");
-		this.trayCropWidth = config.getInt(prefix + "tray-crop-width");
-		this.trayCropHeight = config.getInt(prefix + "tray-crop-height");
 		this.trayBoxWidth = config.getFloat(prefix + "tray-box-width");
+		this.boardCrop = new CropRectangle(
+				config.getInt(prefix + "board-crop.x")
+				,config.getInt(prefix + "board-crop.y")
+				,config.getInt(prefix + "board-crop.width")
+				,config.getInt(prefix + "board-crop.height"));
+		this.boardBoxCrop = new CropRectangle(
+				config.getInt(prefix + "board-box-crop.x")
+				,config.getInt(prefix + "board-box-crop.y")
+				,config.getInt(prefix + "board-box-crop.width")
+				,config.getInt(prefix + "board-box-crop.height"));
+		this.trayCrop = new CropRectangle(
+				config.getInt(prefix + "tray-crop.x")
+				,config.getInt(prefix + "tray-crop.y")
+				,config.getInt(prefix + "tray-crop.width")
+				,config.getInt(prefix + "tray-crop.height"));
+		this.trayBoxCrop = new CropRectangle(
+				config.getInt(prefix + "tray-box-crop.x")
+				,config.getInt(prefix + "tray-box-crop.y")
+				,config.getInt(prefix + "tray-box-crop.width")
+				,config.getInt(prefix + "tray-box-crop.height"));
 	}
-
-	public int getScreenWidth() {
-		return screenWidth;
-	}
-
-	public int getBoardCropX() {
-		return boardCropX;
-	}
-
-	public int getBoardCropY() {
-		return boardCropY;
-	}
-
-	public float getBoardBoxWidth() {
-		return boardBoxWidth;
-	}
-
-	public int getTrayCropX() {
-		return trayCropX;
-	}
-
-	public int getTrayCropY() {
-		return trayCropY;
-	}
-
-	public float getTrayBoxWidth() {
-		return trayBoxWidth;
-	}
-
+	
 	public String getGameType() {
 		return gameType;
 	}
@@ -69,22 +49,34 @@ public class Device {
 		return deviceType;
 	}
 
-	public int getBoardCropWidth() {
-		return boardCropWidth;
+	public int getScreenWidth() {
+		return screenWidth;
 	}
 
-	public int getBoardCropHeight() {
-		return boardCropHeight;
+	public float getBoardBoxWidth() {
+		return boardBoxWidth;
 	}
 
-	public int getTrayCropWidth() {
-		return trayCropWidth;
+	public float getTrayBoxWidth() {
+		return trayBoxWidth;
 	}
 
-	public int getTrayCropHeight() {
-		return trayCropHeight;
+	public CropRectangle getBoardCrop() {
+		return boardCrop;
 	}
-	
+
+	public CropRectangle getBoardBoxCrop() {
+		return boardBoxCrop;
+	}
+
+	public CropRectangle getTrayCrop() {
+		return trayCrop;
+	}
+
+	public CropRectangle getTrayBoxCrop() {
+		return trayBoxCrop;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
@@ -92,16 +84,12 @@ public class Device {
 			.append("\tgameType: ").append(gameType).append("\n")
 			.append("\tdeviceType: ").append(deviceType).append("\n")
 			.append("\tscreenWidth: ").append(screenWidth).append("\n")
-			.append("\tboardCropX: ").append(boardCropX).append("\n")
-			.append("\tboardCropY: ").append(boardCropY).append("\n")
-			.append("\tboardCropWidth: ").append(boardCropWidth).append("\n")
-			.append("\tboardCropHeight: ").append(boardCropHeight).append("\n")
 			.append("\tboardBoxWidth: ").append(boardBoxWidth).append("\n")
-			.append("\ttrayCropX: ").append(trayCropX).append("\n")
-			.append("\ttrayCropY: ").append(trayCropY).append("\n")
-			.append("\ttrayCropWidth: ").append(trayCropWidth).append("\n")
-			.append("\ttrayCropHeight: ").append(trayCropHeight).append("\n")
-			.append("\ttrayBoxWidth: ").append(trayBoxWidth);
+			.append("\ttrayBoxWidth: ").append(trayBoxWidth).append("\n")
+			.append("\tboardCrop: ").append(boardCrop).append("\n")
+			.append("\tboardBoxCrop: ").append(boardBoxCrop).append("\n")
+			.append("\ttrayCrop: ").append(trayCrop).append("\n")
+			.append("\ttrayBoxCrop: ").append(trayBoxCrop).append("\n");
 		
 		return result.toString();
 	}

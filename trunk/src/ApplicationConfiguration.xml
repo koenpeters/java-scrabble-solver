@@ -13,16 +13,32 @@
 			<game-type>nl-wordfeud</game-type>
 			<device-type>iphone</device-type>
 			<screen-width>640</screen-width>
-			<board-crop-x>0</board-crop-x>
-			<board-crop-y>128</board-crop-y>
-			<board-crop-width>640</board-crop-width>
-			<board-crop-height>639</board-crop-height>
 			<board-box-width>42.66667</board-box-width>
-			<tray-crop-x>0</tray-crop-x>
-			<tray-crop-y>775</tray-crop-y>
-			<tray-crop-width>640</tray-crop-width>
-			<tray-crop-height>90</tray-crop-height>
 			<tray-box-width>91.429</tray-box-width>
+			<board-crop>
+				<x>0</x>
+				<y>128</y>
+				<width>640</width>
+				<height>639</height>
+			</board-crop>
+			<board-box-crop>
+				<x>5</x>
+				<y>5</y>
+				<width>30</width>
+				<height>40</height>
+			</board-box-crop>
+			<tray-crop>
+				<x>0</x>
+				<y>775</y>
+				<width>640</width>
+				<height>90</height>
+			</tray-crop>
+			<tray-box-crop>
+				<x>5</x>
+				<y>5</y>
+				<width>80</width>
+				<height>90</height>
+			</tray-box-crop>
 		</device>
 	</device-config>
 </configuration>
