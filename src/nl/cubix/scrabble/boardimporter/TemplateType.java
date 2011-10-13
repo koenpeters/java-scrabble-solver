@@ -1,8 +1,8 @@
 package nl.cubix.scrabble.boardimporter;
 
-import nl.cubix.scrabble.solver.config.ConfigListener;
-import nl.cubix.scrabble.solver.config.Device;
-import nl.cubix.scrabble.solver.config.DeviceConfig;
+import nl.cubix.scrabble.config.ConfigListener;
+import nl.cubix.scrabble.config.Device;
+import nl.cubix.scrabble.config.DeviceConfig;
 
 import org.apache.commons.configuration.event.ConfigurationListener;
 import org.apache.commons.lang.builder.EqualsBuilder;

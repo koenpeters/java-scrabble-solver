@@ -3,7 +3,7 @@ package nl.cubix.scrabble.solver.scoring;
 import java.util.Arrays;
 
 import nl.cubix.scrabble.solver.datastructures.Board;
-import nl.cubix.scrabble.solver.util.CharUtil;
+import nl.cubix.scrabble.util.CharUtil;
 
 import org.apache.log4j.Logger;
 

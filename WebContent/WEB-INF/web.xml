@@ -8,7 +8,7 @@
 
 	<listener>
 		<description>Loads the configuration from the ApplicationConfiguration.xml</description>
-		<listener-class>nl.cubix.scrabble.solver.config.ConfigListener</listener-class>
+		<listener-class>nl.cubix.scrabble.config.ConfigListener</listener-class>
 	</listener>
 	<listener>
 		<description>Loads the ScoringSingleton on server start</description>

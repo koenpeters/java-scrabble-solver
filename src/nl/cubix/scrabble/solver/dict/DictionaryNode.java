@@ -3,7 +3,7 @@ package nl.cubix.scrabble.solver.dict;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.cubix.scrabble.solver.util.CharUtil;
+import nl.cubix.scrabble.util.CharUtil;
 
 /**
  * @author Koen Peters, Cubix Concepts

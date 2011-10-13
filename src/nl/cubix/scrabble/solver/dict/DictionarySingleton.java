@@ -11,9 +11,9 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import nl.cubix.scrabble.solver.config.ConfigListener;
-import nl.cubix.scrabble.solver.util.ParamValidationUtil;
-import nl.cubix.scrabble.solver.util.TimingSingleton;
+import nl.cubix.scrabble.config.ConfigListener;
+import nl.cubix.scrabble.util.ParamValidationUtil;
+import nl.cubix.scrabble.util.TimingSingleton;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
