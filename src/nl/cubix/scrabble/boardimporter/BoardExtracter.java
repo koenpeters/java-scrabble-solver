@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import nl.cubix.scrabble.config.CropRectangle;
 import nl.cubix.scrabble.config.Device;
 import nl.cubix.scrabble.solver.datastructures.Board;
 import nl.cubix.scrabble.util.TimingSingleton;
@@ -80,8 +81,7 @@ public class BoardExtracter {
 		
 		// Crop the image to the board only
 		
-		BufferedImage pureBoardImage = getRegionOfInterest(greyedImage, device.getBoardCropX(), device.getBoardCropY()
-				,device.getBoardCropWidth(), device.getBoardCropHeight());
+		BufferedImage pureBoardImage = getRegionOfInterest(greyedImage, device.getBoardCrop());
 		
 		writeImage(pureBoardImage);
 		return null;
@@ -89,17 +89,16 @@ public class BoardExtracter {
 	
 	private String extractTray(BufferedImage greyedImage, Device device) {
 		
-		BufferedImage pureBoardImage = getRegionOfInterest(greyedImage, device.getTrayCropX(), device.getTrayCropY()
-				,device.getTrayCropWidth(), device.getTrayCropHeight());
+		BufferedImage pureBoardImage = getRegionOfInterest(greyedImage, device.getTrayCrop());
 		
 		writeImage(pureBoardImage);
 		return null;
 	}
 	
-	private BufferedImage getRegionOfInterest(BufferedImage image, int x, int y, int width, int height) {
+	private BufferedImage getRegionOfInterest(BufferedImage image, CropRectangle cropRectangle) {
 		// Crop the image to the given ROI
 		ByteProcessor byteProcessor = new ByteProcessor(image);
-		byteProcessor.setRoi(x, y, width, height);
+		byteProcessor.setRoi(cropRectangle.getX(), cropRectangle.getY(), cropRectangle.getWidth(), cropRectangle.getHeight());
 		byteProcessor = (ByteProcessor)byteProcessor.crop();
 		
 		// Set threshold to turn the image into a black and white image to increase the contrast
