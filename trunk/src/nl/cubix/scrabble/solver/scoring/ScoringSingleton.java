@@ -14,11 +14,11 @@ import java.util.Set;
 
 import javax.management.RuntimeErrorException;
 
-import nl.cubix.scrabble.solver.config.ConfigListener;
+import nl.cubix.scrabble.config.ConfigListener;
 import nl.cubix.scrabble.solver.datastructures.Board;
 import nl.cubix.scrabble.solver.datastructures.Box;
 import nl.cubix.scrabble.solver.datastructures.BoxTypeEnum;
-import nl.cubix.scrabble.solver.util.TimingSingleton;
+import nl.cubix.scrabble.util.TimingSingleton;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;

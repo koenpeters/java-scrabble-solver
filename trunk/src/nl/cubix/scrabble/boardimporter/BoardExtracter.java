@@ -11,9 +11,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import nl.cubix.scrabble.solver.config.Device;
+import nl.cubix.scrabble.config.Device;
 import nl.cubix.scrabble.solver.datastructures.Board;
-import nl.cubix.scrabble.solver.util.TimingSingleton;
+import nl.cubix.scrabble.util.TimingSingleton;
 
 import org.apache.log4j.Logger;
 

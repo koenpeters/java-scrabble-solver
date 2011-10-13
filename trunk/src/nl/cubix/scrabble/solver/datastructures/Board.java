@@ -5,7 +5,7 @@ import java.util.List;
 
 import nl.cubix.scrabble.solver.datastructures.Word.DirectionEnum;
 import nl.cubix.scrabble.solver.scoring.Scoring;
-import nl.cubix.scrabble.solver.util.CharUtil;
+import nl.cubix.scrabble.util.CharUtil;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
