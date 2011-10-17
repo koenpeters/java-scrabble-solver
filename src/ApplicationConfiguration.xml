@@ -8,6 +8,7 @@
 	<data-folder>c:\data\solvr\</data-folder>
 	<dictionaries-folder>dictionaries\</dictionaries-folder>	
 	<scoring-folder>scoring\</scoring-folder>
+	<training-images-folder>trainingImages\</training-images-folder>
 	<device-config>
 		<device>
 			<game-type>nl-wordfeud</game-type>
@@ -24,8 +25,8 @@
 			<board-box-crop>
 				<x>5</x>
 				<y>5</y>
-				<width>30</width>
-				<height>40</height>
+				<width>35</width>
+				<height>35</height>
 			</board-box-crop>
 			<tray-crop>
 				<x>0</x>
