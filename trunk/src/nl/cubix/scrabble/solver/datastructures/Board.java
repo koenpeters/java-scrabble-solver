@@ -171,7 +171,7 @@ public class Board {
 		result.isEmpty = true;
 		for (int row=0; row < result.dimension; row++) {
 			for (int col=0; col < result.dimension; col++) {
-				if (row == result.dimension / 2 + 1 && col == result.dimension / 2 + 1) {
+				if (row == result.dimension / 2 && col == result.dimension / 2) {
 					result.setBox(row, col, new Box(BoxTypeEnum.STARTING_POSITION));
 				} else {
 					result.setBox(row, col, new Box(BoxTypeEnum.EMPTY));
@@ -187,7 +187,14 @@ public class Board {
 	 */
 	@Override
 	public String toString() {
-		return toString(new Word("", null, this, new Coordinate(0, 0), DirectionEnum.VERTICAL));
+		return toString(new Word("", null, this, new Coordinate(0, 0), DirectionEnum.VERTICAL), false);
+	}
+
+	/**
+	 * @return	A string representation of this board. Only the special meaning of the boxes Will be visible, not the tiles
+	 */
+	public String toStringTilesOnly() {
+		return toString(new Word("", null, this, new Coordinate(0, 0), DirectionEnum.VERTICAL), true);
 	}
 	
 	@Override
@@ -415,7 +422,7 @@ public class Board {
 	 * @return	A string representation of given word placed on this board. Only the letters will be visible,
 	 * 			not the empty box's special meaning.
 	 */
-	String toString(Word word) {
+	String toString(Word word, boolean showTilesOnly) {
 		
 		Transposition tr = new Transposition(word);
 
@@ -429,28 +436,48 @@ public class Board {
 				Box box = tr.matrixToUse[row][col];
 				
 				if (!box.isEmpty()) {
-					tempMatrix[row][col] = Character.toUpperCase(box.getCharacter());
-				
+					if (showTilesOnly) {
+						tempMatrix[row][col] = ',';
+						
+					} else {
+						tempMatrix[row][col] = Character.toUpperCase(box.getCharacter());
+					}
+					
 				} else {
 					// Now we know the box is empty
 					
-					if (row == tr.startRow && col >= tr.startCol && charArrayPointer < word.getLetters().length()) {
-						// We are in the middle of our word, we need to either use the letter in the
-						// box if one exists or use the first letter of the remaining available letters.
-					
-						char letter = word.getLettersThroughMask().charAt(charArrayPointer);
-						if (word.getLetters().charAt(charArrayPointer) == Word.JOKER) {
-							tempMatrix[row][col] = blankPlaceholders[CharUtil.toOridinal(letter)];
-						} else {
-							tempMatrix[row][col] = letter;
+					if (showTilesOnly) {
+						// We want to output the tiles and not the letters
+						switch (box.getBoxType()) {
+						case DOUBLE_LETTER:		tempMatrix[row][col] = 'l'; break;
+						case DOUBLE_WORD:		tempMatrix[row][col] = 'w'; break;
+						case TRIPLE_LETTER:		tempMatrix[row][col] = 'L'; break;
+						case TRIPLE_WORD:		tempMatrix[row][col] = 'W'; break;
+						case STARTING_POSITION:	tempMatrix[row][col] = 'S'; break;
+						default:				tempMatrix[row][col] = '.'; break;
 						}
-						charArrayPointer++;
 						
 					} else {
-						// We used up all of our letters and need to check for letters that were on the
-						// board to start with that touch our laid out letters on the right side
-						tempMatrix[row][col] = '.';
-					}	
+						// We want to output the letters and not the tiles
+						
+						if (row == tr.startRow && col >= tr.startCol && charArrayPointer < word.getLetters().length()) {
+							// We are in the middle of our word, we need to either use the letter in the
+							// box if one exists or use the first letter of the remaining available letters.
+						
+							char letter = word.getLettersThroughMask().charAt(charArrayPointer);
+							if (word.getLetters().charAt(charArrayPointer) == Word.JOKER) {
+								tempMatrix[row][col] = blankPlaceholders[CharUtil.toOridinal(letter)];
+							} else {
+								tempMatrix[row][col] = letter;
+							}
+							charArrayPointer++;
+							
+						} else {
+							// We used up all of our letters and need to check for letters that were on the
+							// board to start with that touch our laid out letters on the right side
+							tempMatrix[row][col] = '.';
+						}
+					}
 				}
 			}
 		}

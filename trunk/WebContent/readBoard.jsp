@@ -1,6 +1,6 @@
-<%@page import="java.io.File"%><%@page import="nl.cubix.scrabble.boardimporter.BoardExtracter"%><%@page import="nl.cubix.scrabble.boardimporter.TemplateMatcher"%><%	
+<%@page import="java.io.File"%><%@page import="nl.cubix.scrabble.boardimporter.BoardExtracter"%><%	
 
 	BoardExtracter be = new BoardExtracter();
-	be.extract(new File("c:\\board2.gif"));
+	be.extract(new File("C:\\temp\\testSpul\\board (8).jpg"));
 	
 %>

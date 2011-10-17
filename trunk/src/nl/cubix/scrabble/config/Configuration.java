@@ -17,6 +17,7 @@ public class Configuration {
 	private String dataFolder;
 	private String dictionariesFolder;
 	private String scoringFolder;
+	private String trainingImagesFolder;
 	private DeviceConfig deviceConfig;
 	
 	public Configuration(AbstractConfiguration config) {
@@ -34,6 +35,10 @@ public class Configuration {
 		ParamValidationUtil.validateAsADirectory("", getScoringFolder(), false);
 		logger.info("Setting scoringFolder to " + this.scoringFolder);
 		
+		this.trainingImagesFolder = config.getString("training-images-folder");
+		ParamValidationUtil.validateAsADirectory("", getTrainingImagesFolder(), false);
+		logger.info("Setting trainingImagesFolder to " + this.trainingImagesFolder);
+		
 		this.deviceConfig = new DeviceConfig(config);
 		logger.info("Setting deviceConfig to " + this.deviceConfig.toString());
 
@@ -49,7 +54,11 @@ public class Configuration {
 	}
 	
 	public String getScoringFolder() {
-		return getDataFolder() +scoringFolder;
+		return getDataFolder() + scoringFolder;
+	}
+	
+	public String getTrainingImagesFolder() {
+		return getDataFolder() + trainingImagesFolder;
 	}
 	
 	public DeviceConfig getDeviceConfig() {
