@@ -419,8 +419,10 @@ public class Board {
 	
 	/**
 	 * @param word	The word that needs to be placed on the board
-	 * @return	A string representation of given word placed on this board. Only the letters will be visible,
-	 * 			not the empty box's special meaning.
+	 * @param showTilesOnly	True generates a visualization of the boxes of the board containing the
+	 * 				special meaning of the boxes themselves. False will generate the board showing the 
+	 * 				letters of the tiles.
+	 * @return	A string representation of this board. 
 	 */
 	String toString(Word word, boolean showTilesOnly) {
 		

@@ -181,7 +181,7 @@ public class Word {
 	 * @see Board#toString  
 	 */
 	public String toString() {
-		return board.toString(this);
+		return board.toString(this, false);
 	}
 	
 	
