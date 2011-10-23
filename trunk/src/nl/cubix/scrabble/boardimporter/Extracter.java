@@ -23,7 +23,6 @@ import nl.cubix.scrabble.solver.datastructures.BoxTypeEnum;
 import nl.cubix.scrabble.solver.scoring.Scoring;
 import nl.cubix.scrabble.solver.scoring.ScoringSingleton;
 import nl.cubix.scrabble.util.ParamValidationUtil;
-import nl.cubix.scrabble.util.TimingSingleton;
 
 import org.apache.log4j.Logger;
 
@@ -32,17 +31,13 @@ import org.apache.log4j.Logger;
  * 
  * @author Koen Peters, Cubix Concepts
  */
-public class BoardExtracter {
+public class Extracter {
 
-	private Logger log = Logger.getLogger(BoardExtracter.class);
+	private Logger log = Logger.getLogger(Extracter.class);
 	
 	public ExtractedImage extract(File imageOfBoard) {
 		ParamValidationUtil.validateParamNotNull(imageOfBoard, "imageOfBoard");
 		
-		//TimingSingleton ts = TimingSingleton.getInstance();
-		//ts.resetAll(this);
-		
-		//ts.start(this, 1);
 		// We determine what kind of image this is, so we know how to handle it
 		TemplateType templateType = getTemplateType(imageOfBoard);
 		Device device = templateType.getDevice();
@@ -52,23 +47,16 @@ public class BoardExtracter {
 		if (device == null) {
 			throw new RuntimeException("Cannot determine device for " + imageOfBoard.getAbsolutePath());
 		}
-		//ts.stop(this, 1);
 		
-		//ts.start(this, 2);
 		// Create the greyed out version if the image
 		BufferedImage greyedImage = getGreyedImage(imageOfBoard);
-		//ts.stop(this, 2);
 		
-		//ts.start(this, 4);
+		// Get the board
 		Board board = extractBoard(greyedImage, device, scoringSystem);
-		//ts.stop(this, 4);
 
-		//ts.start(this, 5);
+		// Get the tray
 		String tray = extractTray(greyedImage, device, scoringSystem);
-		//ts.stop(this, 5);
 		
-		//log.info(ts.toString(this));
-
 		return new ExtractedImage(board, tray);
 	}
 
@@ -97,7 +85,7 @@ public class BoardExtracter {
 		
 		// Crop the image so only the board is in the image
 		BufferedImage croppedBlackAndWhiteImage = cropAndBlackAndWhite(greyedImage, device.getBoardCrop());
-		//writeImage(croppedBlackAndWhiteImage, "board");
+		writeImage(croppedBlackAndWhiteImage, "board");
 		
 		// Prefill the two types of scanner to be used multiple times
 		OcrTrainingSingleton ocrTrainingSingleton = OcrTrainingSingleton.getInstance();

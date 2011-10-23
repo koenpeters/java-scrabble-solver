@@ -12,11 +12,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.log4testng.Logger;
 
-public class BoardExtracterTest {
+public class ExtracterTest {
 
-	Logger log = Logger.getLogger(BoardExtracterTest.class);
+	Logger log = Logger.getLogger(ExtracterTest.class);
 	List<TestSet> testSets = new ArrayList<TestSet>();
-	BoardExtracter boardExtracter = new BoardExtracter();
+	Extracter boardExtracter = new Extracter();
 	
 	@Test
 	public void extract() {

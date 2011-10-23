@@ -5,8 +5,7 @@
 <%@page import="java.util.List"%>
 <%@page import="nl.cubix.scrabble.solver.Solver"%>
 <%@page import="nl.cubix.scrabble.boardimporter.ExtractedImage"%><%@page import="nl.cubix.scrabble.config.ConfigListener"%>
-<%@page import="org.apache.log4j.Logger"%><%@page import="java.io.File"%><%@page import="nl.cubix.scrabble.boardimporter.BoardExtracter"%><%	
-
+<%@page import="org.apache.log4j.Logger"%><%@page import="java.io.File"%><%@page import="nl.cubix.scrabble.boardimporter.Extracter"%><%
 	Logger log = Logger.getLogger("solve.jsp");
 	
 	String fileName = "nl-wordfeud-iphone-640-960-007.jpg";
@@ -14,7 +13,7 @@
 	
 	File image = new File(ConfigListener.getConfiguration().getTestDataFolder() + "/" + fileName);
 
-	BoardExtracter boardExtracter = new BoardExtracter();
+	Extracter boardExtracter = new Extracter();
 	ExtractedImage extractedImage = boardExtracter.extract(image);
 	log.info(extractedImage.getBoard());
 	log.info(extractedImage.getBoard().getAllWordsOnBoard());
