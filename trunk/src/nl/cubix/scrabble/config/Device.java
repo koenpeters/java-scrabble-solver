@@ -14,7 +14,6 @@ public class Device {
 	private CropRectangle boardBoxNumberCrop; 
 	private CropRectangle trayCrop; 
 	private CropRectangle trayBoxCrop; 
-	private CropRectangle trayBoxNumberCrop; 
 	
 	public Device(String prefix, AbstractConfiguration config) {
 		this.gameType = config.getString(prefix + "game-type");
@@ -48,11 +47,6 @@ public class Device {
 				,config.getInt(prefix + "tray-box-crop.y")
 				,config.getInt(prefix + "tray-box-crop.width")
 				,config.getInt(prefix + "tray-box-crop.height"));
-		this.trayBoxNumberCrop = new CropRectangle(
-				config.getInt(prefix + "tray-box-number-crop.x")
-				,config.getInt(prefix + "tray-box-number-crop.y")
-				,config.getInt(prefix + "tray-box-number-crop.width")
-				,config.getInt(prefix + "tray-box-number-crop.height"));
 	}
 	
 	public String getGameType() {
@@ -94,10 +88,6 @@ public class Device {
 	public CropRectangle getTrayBoxCrop() {
 		return trayBoxCrop;
 	}
-
-	public CropRectangle getTrayBoxNumberCrop() {
-		return trayBoxNumberCrop;
-	}
 	
 	public CropRectangle getBoardBoxNumberCrop() {
 		return boardBoxNumberCrop;
@@ -116,8 +106,7 @@ public class Device {
 			.append("\tboardBoxCrop: ").append(boardBoxCrop).append("\n")
 			.append("\tboardBoxCNumberrop: ").append(boardBoxNumberCrop).append("\n")
 			.append("\ttrayCrop: ").append(trayCrop).append("\n")
-			.append("\ttrayBoxCrop: ").append(trayBoxCrop).append("\n")
-			.append("\ttrayBoxNumberCrop: ").append(trayBoxNumberCrop).append("\n");
+			.append("\ttrayBoxCrop: ").append(trayBoxCrop).append("\n");
 		
 		return result.toString();
 	}

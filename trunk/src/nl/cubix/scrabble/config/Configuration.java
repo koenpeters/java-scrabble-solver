@@ -18,6 +18,7 @@ public class Configuration {
 	private String scoringFolder;
 	private String trainingImagesFolder;
 	private String testDataFolder;
+	private String testImageDumpFolder;
 	private DeviceConfig deviceConfig;
 	
 	public Configuration(AbstractConfiguration config) {
@@ -43,6 +44,10 @@ public class Configuration {
 		ParamValidationUtil.validateAsADirectory("", getTrainingImagesFolder(), false);
 		logger.info("Setting testDataFolder to " + this.testDataFolder);
 		
+		this.testImageDumpFolder = config.getString("test-image-dump-folder");
+		ParamValidationUtil.validateAsADirectory("", getTrainingImagesFolder(), false);
+		logger.info("Setting testImageDumpFolder to " + this.testImageDumpFolder);
+		
 		this.deviceConfig = new DeviceConfig(config);
 		logger.info("Setting deviceConfig to " + this.deviceConfig.toString());
 
@@ -65,12 +70,16 @@ public class Configuration {
 		return getDataFolder() + trainingImagesFolder;
 	}
 	
-	public DeviceConfig getDeviceConfig() {
-		return deviceConfig;
-	}
-	
 	public String getTestDataFolder() {
 		return getDataFolder() + testDataFolder;
+	}
+	
+	public String getTestImageDumpFolder() {
+		return getDataFolder() + testImageDumpFolder;
+	}
+	
+	public DeviceConfig getDeviceConfig() {
+		return deviceConfig;
 	}
 	
 }
