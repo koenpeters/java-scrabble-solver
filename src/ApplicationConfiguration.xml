@@ -9,11 +9,13 @@
 	<dictionaries-folder>dictionaries\</dictionaries-folder>	
 	<scoring-folder>scoring\</scoring-folder>
 	<training-images-folder>trainingImages\</training-images-folder>
+	<test-data-folder>testData\</test-data-folder>
 	<device-config>
 		<device>
 			<game-type>nl-wordfeud</game-type>
 			<device-type>iphone</device-type>
 			<screen-width>640</screen-width>
+			<screen-height>960</screen-height>
 			<board-box-width>42.66667</board-box-width>
 			<tray-box-width>91.429</tray-box-width>
 			<board-crop>
@@ -25,9 +27,15 @@
 			<board-box-crop>
 				<x>5</x>
 				<y>5</y>
-				<width>35</width>
+				<width>21</width>
 				<height>35</height>
 			</board-box-crop>
+			<board-box-number-crop>
+				<x>27</x>
+				<y>4</y>
+				<width>14</width>
+				<height>14</height>
+			</board-box-number-crop>
 			<tray-crop>
 				<x>0</x>
 				<y>775</y>
@@ -35,11 +43,17 @@
 				<height>90</height>
 			</tray-crop>
 			<tray-box-crop>
-				<x>5</x>
-				<y>5</y>
-				<width>80</width>
-				<height>90</height>
+				<x>10</x>
+				<y>15</y>
+				<width>50</width>
+				<height>65</height>
 			</tray-box-crop>
+			<tray-box-number-crop>
+				<x>62</x>
+				<y>4</y>
+				<width>30</width>
+				<height>30</height>
+			</tray-box-number-crop>
 		</device>
 	</device-config>
 </configuration>

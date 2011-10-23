@@ -1,7 +1,10 @@
 package nl.cubix.scrabble.solver.datastructures;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import nl.cubix.scrabble.solver.datastructures.Word.DirectionEnum;
 import nl.cubix.scrabble.solver.scoring.Scoring;
@@ -106,6 +109,9 @@ public class Board {
 		if (currentBox == null || currentBox.isEmpty()) {
 			matrix[row][col] = box;
 			transposedMatrix[col][row] = box;
+			if (box.isTaken()) {
+				this.isEmpty = false;
+			}
 		} else {
 			log.info("Box " + box + " not set at position " + row + ", " + col + " because the exsting box contains a letter.");
 		}
@@ -178,6 +184,55 @@ public class Board {
 				}
 			}
 		}
+		return result;
+	}
+	
+	/**
+	 * @return	An alphabetically sorted list of all the words that appear in this board
+	 */
+	public List<String> getAllWordsOnBoard() {
+
+		// We need to do both a vertical and a horizontal search, so we test
+		// both the normal and the transposed matrix.
+		Box[][][] bothMatrices = {matrix, transposedMatrix};
+		
+		Set<String> resultAsSet = new HashSet<String>();
+		StringBuilder word = new StringBuilder();
+		
+		// Loop over both matrices
+		for (Box[][] currentMatrix: bothMatrices) {
+		
+			for (int row=0; row < dimension; row++) {
+				
+				// We start a new line, so we need to check if there is a word 
+				// from the previous line that needs to be saved first.
+				if (word.length() > 1) {
+					resultAsSet.add(word.toString());
+				}
+				word.setLength(0);
+				
+				for (int col= 0; col< dimension; col++) {
+					Box box = currentMatrix[row][col];
+					
+					if (box.isEmpty()) {
+						
+						// We encounter an empty box, so we need to check if there is a word 
+						// from previous boxes that needs to be saved. 
+						if (word.length() > 1) {
+							resultAsSet.add(word.toString());
+						}
+						word.setLength(0);
+						
+					} else {
+						word.append(box.getCharacter());
+					}
+				}
+			}
+		}
+		
+		// Turn into a list, sort and return
+		List<String> result = new ArrayList<String>(resultAsSet);
+		Collections.sort(result);
 		return result;
 	}
 	

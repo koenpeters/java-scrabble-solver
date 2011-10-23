@@ -32,7 +32,7 @@ public class DictionaryNode {
 		children[CharUtil.toOridinal(letter)] = dictionaryNode;
 	}
 	
-	private List<StringBuilder> getChildrenAsString() {
+	public List<StringBuilder> getChildrenAsString() {
 		List<StringBuilder> result = new ArrayList<StringBuilder>();
 		if (isWord) {
 			result.add( new StringBuilder());
