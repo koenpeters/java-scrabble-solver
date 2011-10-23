@@ -10,6 +10,7 @@
 	<scoring-folder>scoring\</scoring-folder>
 	<training-images-folder>trainingImages\</training-images-folder>
 	<test-data-folder>testData\</test-data-folder>
+	<test-image-dump-folder>dump\</test-image-dump-folder>
 	<device-config>
 		<device>
 			<game-type>nl-wordfeud</game-type>
@@ -48,12 +49,6 @@
 				<width>50</width>
 				<height>65</height>
 			</tray-box-crop>
-			<tray-box-number-crop>
-				<x>62</x>
-				<y>4</y>
-				<width>30</width>
-				<height>30</height>
-			</tray-box-number-crop>
 		</device>
 	</device-config>
 </configuration>
