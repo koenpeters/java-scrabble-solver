@@ -14,7 +14,7 @@ import nl.cubix.scrabble.config.CropRectangle;
 
 import org.apache.log4j.Logger;
 
-public abstract class AbstractExtracter {
+abstract class AbstractExtracter {
 
 	private Logger log = Logger.getLogger(AbstractExtracter.class);
 	protected final int BLACK = -16777216;

@@ -7,7 +7,7 @@ import nl.cubix.scrabble.config.DeviceConfig;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class TemplateType {
+class TemplateType {
 
 	private String gameType;
 	private String deviceType;

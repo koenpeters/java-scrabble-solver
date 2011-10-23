@@ -27,8 +27,11 @@ public class Extracter {
 	public ExtractedImage extract(File imageOfBoard) {
 		ParamValidationUtil.validateParamNotNull(imageOfBoard, "imageOfBoard");
 		
+		// Read the file into an ImageJ object
+		ImagePlus imagePlus = IJ.openImage(imageOfBoard.getAbsolutePath());
+
 		// We determine what kind of image this is, so we know how to handle it
-		TemplateType templateType = getTemplateType(imageOfBoard);
+		TemplateType templateType = getTemplateType(imagePlus);
 		Device device = templateType.getDevice();
 		ScoringSingleton scoringSingleton = ScoringSingleton.getInstance();
 		Scoring scoringSystem = scoringSingleton.getScoringSystem(device.getGameType());
@@ -38,7 +41,7 @@ public class Extracter {
 		}
 		
 		// Create the greyed out version if the image
-		BufferedImage greyedImage = getGreyedImage(imageOfBoard);
+		BufferedImage greyedImage = convertToGrey(imagePlus);
 		
 		// Get the board
 		BoardExtracter boardExtracter = new BoardExtracter();
@@ -51,28 +54,20 @@ public class Extracter {
 		return new ExtractedImage(board, tray);
 	}
 
-	private BufferedImage getGreyedImage(File imageOfBoard) {
-		
-		// Open the image from the file 
-		ImagePlus result = IJ.openImage(imageOfBoard.getAbsolutePath());
+	private BufferedImage convertToGrey(ImagePlus imageOfBoard) {
 		
 		// Turn into 8bit greyscale
-		ImageConverter imageConverter = new ImageConverter(result);
+		ImageConverter imageConverter = new ImageConverter(imageOfBoard);
 		imageConverter.convertToGray8();
 		
-		return result.getBufferedImage();
+		return imageOfBoard.getBufferedImage();
 	}
 	
 	
-	private TemplateType getTemplateType(File boardImage) {
-		// FIXME build detection
-		return new TemplateType("nl-wordfeud", "iphone", 640, 960);
+	private TemplateType getTemplateType(ImagePlus imageOfBoard) {
+		int width = imageOfBoard.getWidth();
+		int height = imageOfBoard.getHeight();
+
+		return new TemplateType("nl-wordfeud", "iphone", width, height);
 	}
-	
-
-
-
-
-	
-
 }
