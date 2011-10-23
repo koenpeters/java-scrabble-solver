@@ -19,16 +19,16 @@ public class DeviceConfig {
 		for (int i=0; i<devices.size(); i++) {
 			Device device = new Device("device-config.device(" + i + ").", config);
 			this.devices.add(device);
-			devicesMap.put(toKey(device.getGameType(), device.getDeviceType(), device.getScreenWidth()), device);
+			devicesMap.put(toKey(device.getGameType(), device.getDeviceType(), device.getScreenWidth(), device.getScreenHeight()), device);
 		}
 	}
 
-	public Device getDevice(String gameType, String deviceType, int screenWidth) {
-		return devicesMap.get(toKey(gameType, deviceType, screenWidth));
+	public Device getDevice(String gameType, String deviceType, int screenWidth, int screenHeight) {
+		return devicesMap.get(toKey(gameType, deviceType, screenWidth, screenHeight));
 	}
 	
-	private String toKey(String gameType, String deviceType, int screenWidth) {
-		return gameType + "/" + deviceType + "/" + screenWidth;
+	private String toKey(String gameType, String deviceType, int screenWidth, int screenHeight) {
+		return gameType + "/" + deviceType + "/" + screenWidth + "/" + screenHeight;
 	}
 	
 	@Override

@@ -39,7 +39,7 @@ final public class Solver {
 	 */
 	public List<Word> solve(Board board, String tray, String dictionaryName, String scoringSystemName) {
 		ParamValidationUtil.validateParamNotNull(board, "board");
-		ParamValidationUtil.validateParamNotNull(tray, "letters");
+		ParamValidationUtil.validateParamNotNull(tray, "tray");
 		ParamValidationUtil.validateParamNotNull(dictionaryName, "dictionaryName");
 		ParamValidationUtil.validateParamNotNull(scoringSystemName, "scoringSystemName");
 		

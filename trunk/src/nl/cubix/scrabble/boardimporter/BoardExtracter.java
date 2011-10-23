@@ -13,6 +13,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import net.sourceforge.javaocr.ocrPlugins.mseOCR.OCRScanner;
+import nl.cubix.scrabble.boardimporter.ocrtraining.ImageSectionEnum;
 import nl.cubix.scrabble.boardimporter.ocrtraining.OcrTrainingSingleton;
 import nl.cubix.scrabble.config.CropRectangle;
 import nl.cubix.scrabble.config.Device;
@@ -38,10 +39,10 @@ public class BoardExtracter {
 	public ExtractedImage extract(File imageOfBoard) {
 		ParamValidationUtil.validateParamNotNull(imageOfBoard, "imageOfBoard");
 		
-		TimingSingleton ts = TimingSingleton.getInstance();
-		ts.resetAll(this);
+		//TimingSingleton ts = TimingSingleton.getInstance();
+		//ts.resetAll(this);
 		
-		ts.start(this, 1);
+		//ts.start(this, 1);
 		// We determine what kind of image this is, so we know how to handle it
 		TemplateType templateType = getTemplateType(imageOfBoard);
 		Device device = templateType.getDevice();
@@ -51,22 +52,22 @@ public class BoardExtracter {
 		if (device == null) {
 			throw new RuntimeException("Cannot determine device for " + imageOfBoard.getAbsolutePath());
 		}
-		ts.stop(this, 1);
+		//ts.stop(this, 1);
 		
-		ts.start(this, 2);
+		//ts.start(this, 2);
 		// Create the greyed out version if the image
 		BufferedImage greyedImage = getGreyedImage(imageOfBoard);
-		ts.stop(this, 2);
+		//ts.stop(this, 2);
 		
-		ts.start(this, 4);
+		//ts.start(this, 4);
 		Board board = extractBoard(greyedImage, device, scoringSystem);
-		ts.stop(this, 4);
+		//ts.stop(this, 4);
 
-		ts.start(this, 5);
+		//ts.start(this, 5);
 		String tray = extractTray(greyedImage, device, scoringSystem);
-		ts.stop(this, 5);
+		//ts.stop(this, 5);
 		
-		log.info(ts.toString(this));
+		//log.info(ts.toString(this));
 
 		return new ExtractedImage(board, tray);
 	}
@@ -85,8 +86,8 @@ public class BoardExtracter {
 	
 	
 	private TemplateType getTemplateType(File boardImage) {
-		// FIXME
-		return new TemplateType("nl-wordfeud", "iphone", 640);
+		// FIXME build detection
+		return new TemplateType("nl-wordfeud", "iphone", 640, 960);
 	}
 	
 	private Board extractBoard(BufferedImage greyedImage, Device device, Scoring scoringSystem) {
@@ -96,66 +97,154 @@ public class BoardExtracter {
 		
 		// Crop the image so only the board is in the image
 		BufferedImage croppedBlackAndWhiteImage = cropAndBlackAndWhite(greyedImage, device.getBoardCrop());
-		writeImage(croppedBlackAndWhiteImage, "board");
+		//writeImage(croppedBlackAndWhiteImage, "board");
 		
 		// Prefill the two types of scanner to be used multiple times
 		OcrTrainingSingleton ocrTrainingSingleton = OcrTrainingSingleton.getInstance();
 		OCRScanner ocrScannerLetters = new OCRScanner();
-		ocrScannerLetters.addTrainingImages(ocrTrainingSingleton.getTrainingImages("a-z"));
+		ocrScannerLetters.addTrainingImages(ocrTrainingSingleton.getTrainingImages(ImageSectionEnum.BOARD, 'a', 'z'));
 		OCRScanner ocrScannerTiles = new OCRScanner();
-		ocrScannerTiles.addTrainingImages(ocrTrainingSingleton.getTrainingImages("1-8"));
+		ocrScannerTiles.addTrainingImages(ocrTrainingSingleton.getTrainingImages(ImageSectionEnum.BOARD, '1', '8'));
 		
 		// Determine the board's dimension for this game type 
 		int boardDimension = scoringSystem.getBoard().getDimension();
 		for (int row=0; row < boardDimension; row++) {
 			for (int col=0; col < boardDimension; col++) {
 				
-				Box box = performOcrOnASingleBox(croppedBlackAndWhiteImage, device.getBoardBoxCrop(), ocrScannerLetters
-						,ocrScannerTiles, device.getBoardBoxWidth(), row, col);
+				Box box = performOcrOnASingleBoardBox(croppedBlackAndWhiteImage, device, ocrScannerLetters, ocrScannerTiles, row, col);
 				if (box != null) {
 					result.setBox(row, col, box);
 				}
 			}			
 		}
-		log.info(result.toStringTilesOnly());
-		log.info(result.toString());
+		//log.info(result.toStringTilesOnly());
+		//log.info(result.toString());
 		return result;
 	}
 	
-	private Box performOcrOnASingleBox(
+	private Box performOcrOnASingleBoardBox(
 			BufferedImage croppedBlackAndWhiteImage
-			,CropRectangle boardBoxCrop
+			,Device device
 			,OCRScanner ocrScannerLetters
 			,OCRScanner ocrScannerTiles
-			,float boardBoxWidth
 			,int row
 			,int col) {
+		
+		CropRectangle boardBoxCrop = device.getBoardBoxCrop();
+		float boardBoxWidth = device.getBoardBoxWidth();
+		
 		int x = Math.round(col * boardBoxWidth + boardBoxCrop.getX());
 		int y = Math.round(row * boardBoxWidth + boardBoxCrop.getY());
-		boolean isLetter = croppedBlackAndWhiteImage.getRGB(x, y) != -1;
 		
-		BufferedImage box;
+		boolean isLetter = croppedBlackAndWhiteImage.getRGB(x, y) != -1;
 		if (isLetter) {
-			box = croppedBlackAndWhiteImage.getSubimage(x, y, boardBoxCrop.getWidth() - 10, boardBoxCrop.getHeight());
-			box = negative(box);
+			BufferedImage box = croppedBlackAndWhiteImage.getSubimage(x, y, boardBoxCrop.getWidth(), boardBoxCrop.getHeight());
+			applyPhotographicNegative(box);
 			String text = ocrScannerLetters.scan(box, 0, 0, 0, 0, null);
 			text = text.replaceAll(" ", "");
-			//writeImage(box, "(" + row + ", " + col + ", " + text + ")");
+			//writeImage(box, "board-(" + row + ", " + col + ", " + text + ")");
 			if (text.length() > 0) {
 				/* FIXME joker detection needed */
 				return new Box(text.charAt(text.length() - 1), false); 
 			}
 		} else {
-			box = croppedBlackAndWhiteImage.getSubimage(x, y, boardBoxCrop.getWidth(), boardBoxCrop.getHeight());
+			BufferedImage box = croppedBlackAndWhiteImage.getSubimage(x, y, boardBoxCrop.getWidth(), boardBoxCrop.getHeight());
 			String text = ocrScannerTiles.scan(box, 0, 0, 0, 0, null);
 			text = text.replaceAll(" ", "");
-			//writeImage(box, "(" + row + ", " + col + ", " + text + ")");
+			//writeImage(box, "baord-(" + row + ", " + col + ", " + text + ")");
 			BoxTypeEnum boxType = parseToBoxType(text);
 			if (boxType != null) {
 				return new Box(boxType);
 			}
 		}
 		return null;
+	}
+	private String extractTray(BufferedImage greyedImage, Device device, Scoring scoringSystem) {
+		
+		// Create an empty board
+		StringBuilder result = new StringBuilder();
+		
+		// Crop the image so only the board is in the image
+		BufferedImage croppedBlackAndWhiteImage = cropAndBlackAndWhite(greyedImage, device.getTrayCrop());
+		//writeImage(negative(croppedBlackAndWhiteImage), "tray");
+		
+		// Prefill the two types of scanner to be used multiple times
+		OcrTrainingSingleton ocrTrainingSingleton = OcrTrainingSingleton.getInstance();
+		OCRScanner ocrScannerLettersTray = new OCRScanner();
+		ocrScannerLettersTray.addTrainingImages(ocrTrainingSingleton.getTrainingImages(ImageSectionEnum.TRAY, 'a', 'z'));
+		
+		// Determine the board's dimension for this game type 
+		int traySize = scoringSystem.getTraySize();
+		for (int col=0; col < traySize; col++) {
+				
+			Character character = performOcrOnASingleTrayBox(croppedBlackAndWhiteImage, device, ocrScannerLettersTray, col);
+			if (character != null) {
+				result.append(character);
+			}			
+		}
+		//log.info(result);
+		return result.toString();
+	}
+	
+	private Character performOcrOnASingleTrayBox(
+			BufferedImage croppedBlackAndWhiteImage
+			,Device device
+			,OCRScanner ocrScannerLettersTray
+			,int col) {
+		
+		CropRectangle trayBoxCrop = device.getTrayBoxCrop();
+		
+		int x = Math.round(col * device.getTrayBoxWidth() + trayBoxCrop.getX());
+		int y = trayBoxCrop.getY();
+
+		boolean isLetter = croppedBlackAndWhiteImage.getRGB(x, y) != -1;
+		if (isLetter) {
+			BufferedImage box = croppedBlackAndWhiteImage.getSubimage(x, y, trayBoxCrop.getWidth(), trayBoxCrop.getHeight());
+			applyPhotographicNegative(box);
+			String text = ocrScannerLettersTray.scan(box, 0, 0, 0, 0, null);
+			text = text.replaceAll(" ", "");
+			//writeImage(box, "tray-(" + col + ")");
+			if (text.length() > 0) {
+				return text.charAt(0);
+			} else {
+				return ' ';
+			}
+		}
+		return null;
+	}
+	
+	private BufferedImage cropAndBlackAndWhite(BufferedImage image, CropRectangle cropRectangle) {
+
+		// Set threshold to turn the image into a black and white image to increase the contrast
+		ByteProcessor byteProcessor = new ByteProcessor(image);
+		byteProcessor.setThreshold(142, 255, ByteProcessor.BLACK_AND_WHITE_LUT);
+
+		// Crop the image to the given ROI
+		return byteProcessor.getBufferedImage().getSubimage(cropRectangle.getX(), cropRectangle.getY(), cropRectangle.getWidth(), cropRectangle.getHeight());
+	}
+	
+	private void applyPhotographicNegative(BufferedImage img) {
+        Color col;
+        for (int x = 0; x < img.getWidth(); x++) {
+            for (int y = 0; y < img.getHeight(); y++) {
+                int RGBA = img.getRGB(x, y);
+                col = new Color(RGBA, true); //get the color data of the specific pixel
+                col = new Color(
+                		Math.abs(col.getRed() - 255)
+                        ,Math.abs(col.getGreen() - 255)
+                        ,Math.abs(col.getBlue() - 255)); //Swaps values
+                img.setRGB(x, y, col.getRGB());
+            }
+        }
+    }
+	
+	private void writeImage(BufferedImage image, String namePrefix) {
+		File outputfile = new File("c:\\temp\\dump\\" + namePrefix + "_" + System.currentTimeMillis() + ".png");
+		try {
+			ImageIO.write(image, "png", outputfile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
 	}
 
 	private BoxTypeEnum parseToBoxType(String ocrResult) {
@@ -179,46 +268,5 @@ public class BoardExtracter {
 		return null;
 	}
 	
-	private BufferedImage negative(BufferedImage img) {
-        Color col;
-        for (int x = 0; x < img.getWidth(); x++) {
-            for (int y = 0; y < img.getHeight(); y++) {
-                int RGBA = img.getRGB(x, y);
-                col = new Color(RGBA, true); //get the color data of the specific pixel
-                col = new Color(
-                		Math.abs(col.getRed() - 255)
-                        ,Math.abs(col.getGreen() - 255)
-                        ,Math.abs(col.getBlue() - 255)); //Swaps values
-                img.setRGB(x, y, col.getRGB());
-            }
-        }
-        return img;
-    }
-	
-	private String extractTray(BufferedImage greyedImage, Device device, Scoring scoringSystem) {
-		
-		//BufferedImage pureBoardImage = getRegionOfInterest(greyedImage, device.getTrayCrop());
-		//writeImage(pureBoardImage);
-		
-		return null;
-	}
-	
-	private BufferedImage cropAndBlackAndWhite(BufferedImage image, CropRectangle cropRectangle) {
 
-		// Set threshold to turn the image into a black and white image to increase the contrast
-		ByteProcessor byteProcessor = new ByteProcessor(image);
-		byteProcessor.setThreshold(142, 255, ByteProcessor.BLACK_AND_WHITE_LUT);
-
-		// Crop the image to the given ROI
-		return byteProcessor.getBufferedImage().getSubimage(cropRectangle.getX(), cropRectangle.getY(), cropRectangle.getWidth(), cropRectangle.getHeight());
-	}
-	
-	private void writeImage(BufferedImage image, String namePrefix) {
-		File outputfile = new File("c:\\temp\\dump\\" + namePrefix + "_" + System.currentTimeMillis() + ".png");
-		try {
-			ImageIO.write(image, "png", outputfile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
-	}
 }

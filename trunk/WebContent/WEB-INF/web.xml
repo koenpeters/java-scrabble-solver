@@ -18,10 +18,8 @@
 		<description>Loads the OcrTRainingListener on server start</description>
 		<listener-class>nl.cubix.scrabble.boardimporter.ocrtraining.OcrTrainingListener</listener-class>
 	</listener>
-<!--
 	<listener>
 		<description>Loads the DictionarySingleton on server start</description>
 		<listener-class>nl.cubix.scrabble.solver.dict.DictionaryListener</listener-class>
 	</listener>
--->
 </web-app>

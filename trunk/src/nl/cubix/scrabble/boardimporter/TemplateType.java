@@ -4,27 +4,30 @@ import nl.cubix.scrabble.config.ConfigListener;
 import nl.cubix.scrabble.config.Device;
 import nl.cubix.scrabble.config.DeviceConfig;
 
-import org.apache.commons.configuration.event.ConfigurationListener;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-
-import com.sun.org.apache.xpath.internal.operations.Gt;
 
 public class TemplateType {
 
 	private String gameType;
 	private String deviceType;
 	private int screenWidth;
+	private int screenHeight;
 	
-	public TemplateType(String gameType, String deviceType, int screenWidth) {
+	public TemplateType(String gameType, String deviceType, int screenWidth, int screenHeight) {
 		super();
 		this.gameType = gameType;
 		this.screenWidth = screenWidth;
+		this.screenHeight = screenHeight;
 		this.deviceType = deviceType;
 	}
 	
 	public int getScreenWidth() {
 		return screenWidth;
+	}
+	
+	public int getScreenHeight() {
+		return screenHeight;
 	}
 	
 	public String getGameType() {
@@ -34,11 +37,10 @@ public class TemplateType {
 	public String getDeviceType() {
 		return deviceType;
 	}
-	
 
 	public Device getDevice() {
 		DeviceConfig deviceConfig = ConfigListener.getConfiguration().getDeviceConfig(); 
-		return deviceConfig.getDevice(gameType, deviceType, screenWidth);
+		return deviceConfig.getDevice(gameType, deviceType, screenWidth, screenHeight);
 	}
 	
 	@Override
@@ -58,6 +60,7 @@ public class TemplateType {
 		TemplateType templateType = (TemplateType) obj;
 		return new EqualsBuilder()
 					.append(screenWidth, templateType.screenWidth)
+					.append(screenHeight, templateType.screenHeight)
 					.append(gameType, templateType.gameType)
 					.append(deviceType, templateType.deviceType)
 					.isEquals();
@@ -67,6 +70,7 @@ public class TemplateType {
 	public int hashCode() {
 	     return new HashCodeBuilder(47, 13)
 	     	.append(screenWidth)
+	     	.append(screenHeight)
 	     	.append(gameType)
 	     	.append(deviceType)
 	       .toHashCode();

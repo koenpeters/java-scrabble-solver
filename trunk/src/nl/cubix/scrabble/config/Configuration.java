@@ -5,7 +5,6 @@ import nl.cubix.scrabble.util.ParamValidationUtil;
 import org.apache.commons.configuration.AbstractConfiguration;
 import org.apache.log4j.Logger;
 
-
 /**
  * This class contains all the configuration of this application
  * 
@@ -18,6 +17,7 @@ public class Configuration {
 	private String dictionariesFolder;
 	private String scoringFolder;
 	private String trainingImagesFolder;
+	private String testDataFolder;
 	private DeviceConfig deviceConfig;
 	
 	public Configuration(AbstractConfiguration config) {
@@ -38,6 +38,10 @@ public class Configuration {
 		this.trainingImagesFolder = config.getString("training-images-folder");
 		ParamValidationUtil.validateAsADirectory("", getTrainingImagesFolder(), false);
 		logger.info("Setting trainingImagesFolder to " + this.trainingImagesFolder);
+		
+		this.testDataFolder = config.getString("test-data-folder");
+		ParamValidationUtil.validateAsADirectory("", getTrainingImagesFolder(), false);
+		logger.info("Setting testDataFolder to " + this.testDataFolder);
 		
 		this.deviceConfig = new DeviceConfig(config);
 		logger.info("Setting deviceConfig to " + this.deviceConfig.toString());
@@ -63,6 +67,10 @@ public class Configuration {
 	
 	public DeviceConfig getDeviceConfig() {
 		return deviceConfig;
+	}
+	
+	public String getTestDataFolder() {
+		return getDataFolder() + testDataFolder;
 	}
 	
 }
