@@ -19,6 +19,7 @@ public class Configuration {
 	private String trainingImagesFolder;
 	private String testDataFolder;
 	private String testImageDumpFolder;
+	private String uploadFolder;
 	private DeviceConfig deviceConfig;
 	
 	public Configuration(AbstractConfiguration config) {
@@ -48,6 +49,10 @@ public class Configuration {
 		ParamValidationUtil.validateAsADirectory("", getTrainingImagesFolder(), false);
 		logger.info("Setting testImageDumpFolder to " + this.testImageDumpFolder);
 		
+		this.uploadFolder = config.getString("upload-folder");
+		ParamValidationUtil.validateAsADirectory("", getTrainingImagesFolder(), false);
+		logger.info("Setting uploadFolder to " + this.uploadFolder);
+		
 		this.deviceConfig = new DeviceConfig(config);
 		logger.info("Setting deviceConfig to " + this.deviceConfig.toString());
 
@@ -76,6 +81,10 @@ public class Configuration {
 	
 	public String getTestImageDumpFolder() {
 		return getDataFolder() + testImageDumpFolder;
+	}
+	
+	public String getUploadFolder() {
+		return getDataFolder() + uploadFolder;
 	}
 	
 	public DeviceConfig getDeviceConfig() {
