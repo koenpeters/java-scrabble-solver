@@ -16,10 +16,24 @@
 	</listener>
 	<listener>
 		<description>Loads the OcrTRainingListener on server start</description>
-		<listener-class>nl.cubix.scrabble.boardimporter.ocrtraining.OcrTrainingListener</listener-class>
+		<listener-class>nl.cubix.scrabble.boardimporter.extracter.ocrtraining.OcrTrainingListener</listener-class>
 	</listener>
 	<listener>
 		<description>Loads the DictionarySingleton on server start</description>
 		<listener-class>nl.cubix.scrabble.solver.dict.DictionaryListener</listener-class>
 	</listener>
+	
+	<!-- *********** -->
+	<!--   SERVLETS  -->
+	<!-- *********** -->
+	
+	<servlet>
+		<servlet-name>UploadServlet</servlet-name>
+		<servlet-class>nl.cubix.scrabble.web.UploadServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UploadServlet</servlet-name>
+		<url-pattern>/solve</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

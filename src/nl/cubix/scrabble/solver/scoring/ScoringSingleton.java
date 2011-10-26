@@ -56,11 +56,16 @@ public class ScoringSingleton  {
 		return scoringSystems.keySet();
 	}
 	
-	public Scoring getScoringSystem(String scoringSystem) {
-		if (!scoringSystems.keySet().contains(scoringSystem)) {
-			throw new IllegalArgumentException("Unknown scoring system " + scoringSystem + ". Possible scoring systems are: " + getAllScoringSystemNames());
+	public Scoring getScoringSystem(String scoringSystemName) {
+		if (!scoringSystems.keySet().contains(scoringSystemName)) {
+			throw new IllegalArgumentException("Unknown scoring system " + scoringSystemName + ". Possible scoring systems are: " + getAllScoringSystemNames());
 		}
-		return scoringSystems.get(scoringSystem);
+		return scoringSystems.get(scoringSystemName);
+	}
+
+	public Scoring getScoringSystem(String gameType, String language) {
+		String scoringSystemName = language + "-" + gameType;
+		return getScoringSystem(scoringSystemName);
 	}
 	
 	/* ************************ */
@@ -165,6 +170,9 @@ public class ScoringSingleton  {
 			} else if (key.equalsIgnoreCase("board")) {
 				scoring.setBoard(parseBoard(value, line, scoringFile));
 				
+			} else if (key.equalsIgnoreCase("language")) {
+				scoring.setLanguage(value);
+				
 			} else  if (key.length() == 1) {
 				
 				char letter = key.charAt(0);
@@ -180,7 +188,7 @@ public class ScoringSingleton  {
 			}
 		}
 	}
-
+	
 	private int parseInteger(String value, String line, File scoringFile) {
 		int number;
 		try {

@@ -19,6 +19,7 @@ public class Scoring {
 	int[] pointsPerTile = new int[26];
 	int bonus = IS_NOT_SET;
 	int traySize = IS_NOT_SET;
+	String language = null;
 	Board board = null;
 	
 	public Scoring() {
@@ -56,11 +57,20 @@ public class Scoring {
 	public void setBoard(Board board) {
 		this.board = board;
 	}
+	
+	public String getLanguage() {
+		return language;
+	}
+	
+	public void setLanguage(String language) {
+		this.language = language;
+	}
 
 	public boolean areAllValuesSet() {
 		boolean result = true;
 		result = result && bonus != IS_NOT_SET;
 		result = result && traySize != IS_NOT_SET;
+		result = result && language != null;
 		result = result && board != null;
 		for (int p: pointsPerTile) {
 			result = result && p != IS_NOT_SET;
@@ -73,6 +83,7 @@ public class Scoring {
 		StringBuffer result = new StringBuffer();
 		
 		result.append("bonus:" + getBonus() + ", ");
+		result.append("language:" + getLanguage() + ", ");
 		result.append("tray size:" + getTraySize() + ", ");
 		
 		for (int i=0; i<pointsPerTile.length; i++) {

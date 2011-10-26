@@ -11,9 +11,10 @@
 	<training-images-folder>trainingImages\</training-images-folder>
 	<test-data-folder>testData\</test-data-folder>
 	<test-image-dump-folder>dump\</test-image-dump-folder>
+	<upload-folder>upload\</upload-folder>
 	<device-config>
 		<device>
-			<game-type>nl-wordfeud</game-type>
+			<game-type>wordfeud</game-type>
 			<device-type>iphone</device-type>
 			<screen-width>640</screen-width>
 			<screen-height>960</screen-height>
