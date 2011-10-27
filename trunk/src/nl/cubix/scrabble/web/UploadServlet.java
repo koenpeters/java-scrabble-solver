@@ -19,6 +19,7 @@ import nl.cubix.scrabble.boardimporter.extracter.Extracter;
 import nl.cubix.scrabble.config.ConfigListener;
 import nl.cubix.scrabble.solver.Solver;
 import nl.cubix.scrabble.solver.datastructures.Word;
+import nl.cubix.scrabble.util.TimingSingleton;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -36,6 +37,9 @@ public class UploadServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
+		TimingSingleton timingSingleton = TimingSingleton.getInstance();
+		timingSingleton.reset(this, 1);
+		timingSingleton.start(this, 1);
 		if (!ServletFileUpload.isMultipartContent(req)) {
 			throw new ServletException("The uploading of a wordfeud board must be use multipart content");
 		}
@@ -49,16 +53,17 @@ public class UploadServlet extends HttpServlet {
 		File imageOfBoard = ((DiskFileItem)params.get("imageOfBoard")).getStoreLocation();
 		Integer maxNrOfSolutions = Integer.parseInt(params.get("maxNrOfSolutions").getString());
 		
-		// Figure out what type of game this is
-		TemplateType templateType = detect(imageOfBoard, deviceType, language);
-		
 		// Get all the solutions to the sent screen
-		List<Word> solutions = solve(imageOfBoard, templateType);
+		Solution solution = solve(imageOfBoard, deviceType, language);
+		
+		timingSingleton.stop(this, 1);
 		
 		// Save the solutions and templateType for the view to process
-		req.setAttribute("templateType", templateType);
-		req.setAttribute("solutions", solutions);
+		req.setAttribute("templateType", solution.templateType);
+		req.setAttribute("solutions", solution.solutions);
+		req.setAttribute("tray", solution.extractedImage.getTray());
 		req.setAttribute("maxNrOfSolutions", maxNrOfSolutions);
+		req.setAttribute("duration", timingSingleton.getTime(this, 1));
 
 		// Redirect to the view
 		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/view/showSolutions.jsp"); 
@@ -84,24 +89,23 @@ public class UploadServlet extends HttpServlet {
 		Map<String, FileItem> result = new HashMap<String, FileItem>();
 		for (FileItem item : items) {
 			result.put(item.getFieldName(), item);
-			log.info(item.getFieldName());
 		}
 		return result;
 	}
 	
-	private TemplateType detect(File imageOfBoard, String deviceType, String language) {
-		GameDectector dectector = new GameDectector();
-		return dectector.detect(imageOfBoard, deviceType, language);
-	}
 	
-	private List<Word> solve(File image, TemplateType templateType) throws ServletException {
+	private Solution solve(File imageOfBoard, String deviceType, String language) throws ServletException {
+		
+		
+		GameDectector dectector = new GameDectector();
+		TemplateType templateType = dectector.detect(imageOfBoard, deviceType, language);
 		
 		Extracter extracter = new Extracter();
-		ExtractedImage extractedImage = extracter.extract(image, templateType);
+		ExtractedImage extractedImage = extracter.extract(imageOfBoard, templateType);
+		
 		
 		String dictionary = "";
 		String scoringSystemName = "";
-		String language = templateType.getScoringSystem().getLanguage();
 		
 		if (language.equalsIgnoreCase("nl")) {
 			dictionary = "nl-opentaal";
@@ -114,7 +118,13 @@ public class UploadServlet extends HttpServlet {
 		}
 
 		Solver solver = new Solver();
-		return solver.solve(extractedImage.getBoard(), extractedImage.getTray(), dictionary, scoringSystemName);
+		List<Word> solutions =  solver.solve(extractedImage.getBoard(), extractedImage.getTray(), dictionary, scoringSystemName);
+		
+		Solution result = new Solution();
+		result.templateType = templateType;
+		result.solutions = solutions;
+		result.extractedImage = extractedImage;
+		return result;
 	}
 	
 	
@@ -122,5 +132,11 @@ public class UploadServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.getWriter().write("Only multipart POST requests are accepted");
+	}
+	
+	private class Solution {
+		List<Word> solutions;
+		ExtractedImage extractedImage;
+		TemplateType templateType;
 	}
 }
