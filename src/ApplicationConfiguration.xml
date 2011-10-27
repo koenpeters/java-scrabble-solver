@@ -5,7 +5,7 @@
 		Just copy this file into the directory as specified in 'config.xml and change any values you like'
 	-->
 
-	<data-folder>c:\data\solvr\</data-folder>
+	<data-folder>c:\data\wordfeud\</data-folder>
 	<dictionaries-folder>dictionaries\</dictionaries-folder>	
 	<scoring-folder>scoring\</scoring-folder>
 	<training-images-folder>trainingImages\</training-images-folder>
