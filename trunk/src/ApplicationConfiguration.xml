@@ -26,12 +26,18 @@
 				<width>640</width>
 				<height>639</height>
 			</board-crop>
-			<board-box-crop>
+			<board-box-letter-crop>
 				<x>5</x>
 				<y>5</y>
 				<width>21</width>
 				<height>35</height>
-			</board-box-crop>
+			</board-box-letter-crop>
+			<board-box-tile-crop>
+				<x>5</x>
+				<y>5</y>
+				<width>35</width>
+				<height>35</height>
+			</board-box-tile-crop>
 			<board-box-number-crop>
 				<x>27</x>
 				<y>4</y>

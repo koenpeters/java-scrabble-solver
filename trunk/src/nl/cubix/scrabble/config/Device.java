@@ -10,7 +10,8 @@ public class Device {
 	private float boardBoxWidth;
 	private float trayBoxWidth;
 	private CropRectangle boardCrop; 
-	private CropRectangle boardBoxCrop; 
+	private CropRectangle boardBoxLetterCrop; 
+	private CropRectangle boardBoxTileCrop; 
 	private CropRectangle boardBoxNumberCrop; 
 	private CropRectangle trayCrop; 
 	private CropRectangle trayBoxCrop; 
@@ -27,11 +28,16 @@ public class Device {
 				,config.getInt(prefix + "board-crop.y")
 				,config.getInt(prefix + "board-crop.width")
 				,config.getInt(prefix + "board-crop.height"));
-		this.boardBoxCrop = new CropRectangle(
-				config.getInt(prefix + "board-box-crop.x")
-				,config.getInt(prefix + "board-box-crop.y")
-				,config.getInt(prefix + "board-box-crop.width")
-				,config.getInt(prefix + "board-box-crop.height"));
+		this.boardBoxLetterCrop = new CropRectangle(
+				config.getInt(prefix + "board-box-letter-crop.x")
+				,config.getInt(prefix + "board-box-letter-crop.y")
+				,config.getInt(prefix + "board-box-letter-crop.width")
+				,config.getInt(prefix + "board-box-letter-crop.height"));
+		this.boardBoxTileCrop = new CropRectangle(
+				config.getInt(prefix + "board-box-tile-crop.x")
+				,config.getInt(prefix + "board-box-tile-crop.y")
+				,config.getInt(prefix + "board-box-tile-crop.width")
+				,config.getInt(prefix + "board-box-tile-crop.height"));
 		this.boardBoxNumberCrop = new CropRectangle(
 				config.getInt(prefix + "board-box-number-crop.x")
 				,config.getInt(prefix + "board-box-number-crop.y")
@@ -77,8 +83,12 @@ public class Device {
 		return boardCrop;
 	}
 
-	public CropRectangle getBoardBoxCrop() {
-		return boardBoxCrop;
+	public CropRectangle getBoardBoxLetterCrop() {
+		return boardBoxLetterCrop;
+	}
+	
+	public CropRectangle getBoardBoxTileCrop() {
+		return boardBoxTileCrop;
 	}
 
 	public CropRectangle getTrayCrop() {
@@ -103,7 +113,8 @@ public class Device {
 			.append("\tscreenHeight: ").append(screenHeight).append("\n")
 			.append("\tboardBoxWidth: ").append(boardBoxWidth).append("\n")
 			.append("\tboardCrop: ").append(boardCrop).append("\n")
-			.append("\tboardBoxCrop: ").append(boardBoxCrop).append("\n")
+			.append("\tboardBoxLetterCrop: ").append(boardBoxLetterCrop).append("\n")
+			.append("\tboardBoxTileCrop: ").append(boardBoxTileCrop).append("\n")
 			.append("\tboardBoxCNumberrop: ").append(boardBoxNumberCrop).append("\n")
 			.append("\ttrayCrop: ").append(trayCrop).append("\n")
 			.append("\ttrayBoxCrop: ").append(trayBoxCrop).append("\n");
