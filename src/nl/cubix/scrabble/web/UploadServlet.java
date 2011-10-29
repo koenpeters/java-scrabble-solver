@@ -38,15 +38,17 @@ public class UploadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
 		TimingSingleton timingSingleton = TimingSingleton.getInstance();
-		timingSingleton.reset(this, 1);
-		timingSingleton.start(this, 1);
+		timingSingleton.resetAll(this);
 		if (!ServletFileUpload.isMultipartContent(req)) {
 			throw new ServletException("The uploading of a wordfeud board must be use multipart content");
 		}
 
+		timingSingleton.start(this, 1);
 		// Put the request parameters in a convenient map. Also save the attachment to disk
 		Map<String, FileItem> params = saveRequest(req);
+		timingSingleton.stop(this, 1);
 		
+		timingSingleton.start(this, 2);
 		// Get the values of the sent request parameters
 		String deviceType = params.get("deviceType").getString();
 		String language = params.get("language").getString();
@@ -55,19 +57,20 @@ public class UploadServlet extends HttpServlet {
 		
 		// Get all the solutions to the sent screen
 		Solution solution = solve(imageOfBoard, deviceType, language);
-		
-		timingSingleton.stop(this, 1);
+		timingSingleton.stop(this, 2);
 		
 		// Save the solutions and templateType for the view to process
 		req.setAttribute("templateType", solution.templateType);
 		req.setAttribute("solutions", solution.solutions);
 		req.setAttribute("tray", solution.extractedImage.getTray());
 		req.setAttribute("maxNrOfSolutions", maxNrOfSolutions);
-		req.setAttribute("duration", timingSingleton.getTime(this, 1));
+		req.setAttribute("durationUpload", timingSingleton.getTime(this, 1));
+		req.setAttribute("durationSolve", timingSingleton.getTime(this, 2));
 
 		// Redirect to the view
 		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/view/showSolutions.jsp"); 
 		rd.include(req, resp);
+		log.info(timingSingleton.toString(this));
 	}
 	
 	private Map<String, FileItem> saveRequest(HttpServletRequest req) throws ServletException {

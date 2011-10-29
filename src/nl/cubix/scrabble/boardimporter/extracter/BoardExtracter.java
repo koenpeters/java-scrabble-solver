@@ -76,7 +76,9 @@ class BoardExtracter extends AbstractExtracter {
 			// We need a black letter on a white background. The letter tiles need to
 			// be negated to get this effect.
 			applyPhotographicNegative(box);
+			//writeImage(box, "board-letter-(" + row + ", " + col + ")");
 			
+			//writeImage(box, "board-letter-(" + col + ")");
 			// Read the letter in this box
 			String text = ocrScannerLetters.scan(box, 0, 0, 0, 0, null);
 			text = text.replaceAll(" ", "");
@@ -96,6 +98,7 @@ class BoardExtracter extends AbstractExtracter {
 			// Read the tiles in this box
 			String text = ocrScannerTiles.scan(box, 0, 0, 0, 0, null);
 			text = text.replaceAll(" ", "");
+			//writeImage(box, "board-tile-(" + row + ", " + col + ")");
 			
 			BoxTypeEnum boxType = parseToBoxType(text);
 			if (boxType != null) {

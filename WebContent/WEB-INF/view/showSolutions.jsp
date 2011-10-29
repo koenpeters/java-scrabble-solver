@@ -7,7 +7,8 @@
 	Integer maxNrOfSolutions = Math.max(100, (Integer)request.getAttribute("maxNrOfSolutions"));
 	TemplateType templateType = (TemplateType)request.getAttribute("templateType");
 	String tray = (String)request.getAttribute("tray");
-	Long duration = (Long)request.getAttribute("duration");
+	Long durationUpload = (Long)request.getAttribute("durationUpload");
+	Long durationSolve = (Long)request.getAttribute("durationSolve");
 %>
 
 <!DOCTYPE html>
@@ -19,7 +20,8 @@
 	<meta name="keywords" content="" />
 </head>
 <body>
-	Solving took: <%= duration %> msec<br/>
+	Uploading took: <%= durationUpload %> msec<br/>
+	Solving took: <%= durationSolve %> msec<br/>
 	Device type: <%= templateType.getDevice().getDeviceType() %><br/>
 	Language: <%= templateType.getScoringSystem().getLanguage() %><br/>
 	Maximum nr of solutions: <%= maxNrOfSolutions %><br/>
