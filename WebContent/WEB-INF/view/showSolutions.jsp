@@ -24,13 +24,21 @@
 	Language: <%= templateType.getScoringSystem().getLanguage() %><br/>
 	Maximum nr of solutions: <%= maxNrOfSolutions %><br/>
 	Total nr of solutions: <%= solutions.size() %><br/>
+	Scanned Tiles: <br/>
+	
+	<pre><%
+		if (solutions.size() > 0) {
+			out.println(solutions.get(0).getBoard().toStringTilesOnly());
+		} %>
+	</pre>
+	
 	Available tray: "<%= tray %>"<br/>
 	<pre><%
-		for (int i=0; i < Math.min(10, solutions.size()); i++) {
+		for (int i=0; i < Math.min(100, solutions.size()); i++) {
 			out.println("Word: " + solutions.get(i).getPrimaryWord());
 			out.println("Score: " + solutions.get(i).getScore(templateType.getScoringSystem()));
 			out.println(solutions.get(i));
-			out.println("<br/><br/><br/>");
+			out.println("<br/>");
 		}
 		%>
 	</pre>

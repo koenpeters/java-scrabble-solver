@@ -61,29 +61,25 @@ class BoardExtracter extends AbstractExtracter {
 			,int row
 			,int col) {
 		
-		CropRectangle boxCrop = device.getBoardBoxCrop();
-		
 		int xOffset = Math.round(col * device.getBoardBoxWidth());
 		int yOffset = Math.round(row * device.getBoardBoxWidth());
 		
-		// Crop the whole image to the box we want to scan in this iteration
-		BufferedImage box = bAndWimage.getSubimage(
-				xOffset + boxCrop.getX(), yOffset + boxCrop.getY(),boxCrop.getWidth(), boxCrop.getHeight());
-		//writeImage(box, "board-(" + row + ", " + col + ", " + text + ")");
+		boolean isLetter = bAndWimage.getRGB(xOffset + device.getBoardBoxLetterCrop().getX(), yOffset + device.getBoardBoxLetterCrop().getY()) == BLACK;
 
-		boolean isLetter = bAndWimage.getRGB(xOffset + boxCrop.getX(), yOffset + boxCrop.getY()) == BLACK;
-
-		// We need a black letter on a white background. The letter tiles need to
-		// be negated to get this effect.
 		if (isLetter) {
+			CropRectangle boxCrop = device.getBoardBoxLetterCrop();
+
+			// Crop the whole image to the box we want to scan in this iteration
+			BufferedImage box = bAndWimage.getSubimage(xOffset + boxCrop.getX(), yOffset + boxCrop.getY()
+														,boxCrop.getWidth(), boxCrop.getHeight());
+
+			// We need a black letter on a white background. The letter tiles need to
+			// be negated to get this effect.
 			applyPhotographicNegative(box);
-		}	
-	
-		// Read the letter in this box
-		String text = ocrScannerLetters.scan(box, 0, 0, 0, 0, null);
-		text = text.replaceAll(" ", "");
-		
-		if (isLetter) {
+			
+			// Read the letter in this box
+			String text = ocrScannerLetters.scan(box, 0, 0, 0, 0, null);
+			text = text.replaceAll(" ", "");
 			
 			if (text.length() > 0) {
 				// Check if this box is a joker or a normal letter
@@ -91,12 +87,22 @@ class BoardExtracter extends AbstractExtracter {
 				return new Box(text.charAt(text.length() - 1), isJoker);
 			}
 		} else {
+			CropRectangle boxCrop = device.getBoardBoxTileCrop();
+
+			// Crop the whole image to the box we want to scan in this iteration
+			BufferedImage box = bAndWimage.getSubimage(xOffset + boxCrop.getX(), yOffset + boxCrop.getY()
+					,boxCrop.getWidth(), boxCrop.getHeight());
+
+			// Read the tiles in this box
+			String text = ocrScannerTiles.scan(box, 0, 0, 0, 0, null);
+			text = text.replaceAll(" ", "");
 			
 			BoxTypeEnum boxType = parseToBoxType(text);
 			if (boxType != null) {
 				return new Box(boxType);
 			}
 		}
+		
 		return null;
 	}
 	

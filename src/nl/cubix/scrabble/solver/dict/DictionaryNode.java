@@ -27,9 +27,36 @@ public class DictionaryNode {
 	public void markAsWord() {
 		this.isWord = true;
 	}
+
+	public void removeMarkAsWord() {
+		this.isWord = false;
+	}
 	
 	public void setDictionaryNode(char letter, DictionaryNode dictionaryNode) {
 		children[CharUtil.toOridinal(letter)] = dictionaryNode;
+	}
+
+	public void removeDictionaryNode(char letter) {
+		children[CharUtil.toOridinal(letter)] = null;
+	}
+
+	public boolean hasNoChildren() {
+		for (DictionaryNode child: children) {
+			if (child != null) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public int getNrOfSubNodes() {
+		int result = 0;
+		for (DictionaryNode child: children) {
+			if (child != null) {
+				result += child.getNrOfSubNodes();
+			}
+		}
+		return 1 + result;
 	}
 	
 	public List<StringBuilder> getChildrenAsString() {
@@ -70,4 +97,5 @@ public class DictionaryNode {
 		}
 		return result.toString();
 	}
+
 }

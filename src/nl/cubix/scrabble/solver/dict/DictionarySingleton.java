@@ -102,14 +102,14 @@ public class DictionarySingleton  {
 			DictionaryNode dictionary = new DictionaryNode();
 			
 			// Read the main dictionary file
-			readOneDictionaryFileFromDisk(dictionaryFile, dictionary);
+			readOneDictionaryFileFromDisk(dictionaryFile, dictionary, false);
 
 			// Check if there is an additional file with additions to this main dictionary file
 			String path = dictionaryFile.getAbsolutePath();
 			int extensionIndex = FilenameUtils.indexOfExtension(path);
 			File additonalWords = new File(path.substring(0, extensionIndex) + ADDITIONAL_WORDS_FILENAME_ADDITION + path.substring(extensionIndex));
 			if (additonalWords.exists()) {
-				readOneDictionaryFileFromDisk(additonalWords, dictionary);
+				readOneDictionaryFileFromDisk(additonalWords, dictionary, true);
 			}
 
 			// Save both files to the same dictionary
@@ -120,7 +120,7 @@ public class DictionarySingleton  {
 	
 	
 	
-	private DictionaryNode readOneDictionaryFileFromDisk(File dictionaryFile, DictionaryNode dictionary) {
+	private DictionaryNode readOneDictionaryFileFromDisk(File dictionaryFile, DictionaryNode dictionary, boolean isAdditional) {
 		if (!dictionaryFile.exists() || !dictionaryFile.canRead()) {
 			throw new RuntimeException("Dictionaryfile " + dictionaryFile.getAbsolutePath() + " cannot be read.");
 		}
@@ -137,7 +137,7 @@ public class DictionarySingleton  {
 		Cleanable cleaner = CleanerFactory.getInstance(parts[0]);
 		
 		int nrOfWords = 0;
-		
+		boolean removeWord;
 		InputStream is;
 		try {
 			is = new FileInputStream(dictionaryFile);
@@ -150,10 +150,17 @@ public class DictionarySingleton  {
 						if (line != null) {
 							line = line.trim();
 							if (line.length() > 1) {
-								if (addWordToDictionary(line, dictionary, 0, true, cleaner)) {
-									nrOfWords++;
+								
+								if (isAdditional && line.startsWith("-")) {
+									// if we are processing the additional file and the word starts with a minus (-)
+									// then we need to remove the word form the dictionary. 
+									removeWordFromDictionary(line.substring(1), dictionary, 0, true, cleaner);
 								} else {
-									//log.info("dropped word (" + line + ")");
+									if (addWordToDictionary(line, dictionary, 0, true, cleaner)) {
+										nrOfWords++;
+									} else {
+										//log.info("skipped word (" + line + ")");
+									}
 								}
 							}
 						}
@@ -173,11 +180,14 @@ public class DictionarySingleton  {
 		}
 		
 		timing.stop(this, timingId);
-		log.info("Read " + dictionaryFile.getName() + ", containing " + nrOfWords + " words in " + timing.getTime(this, timingId)+ " msec.");
+		log.info("Read " + dictionaryFile.getName() + ", containing " + nrOfWords + " words and " + dictionary.getNrOfSubNodes() + " nodes in " + timing.getTime(this, timingId)+ " msec.");
 		
 		return dictionary;
 	}
 	
+	/*
+	 * @return true if word was added to context. False otherwise
+	 */
 	private boolean addWordToDictionary(String word, DictionaryNode context, int pointer, boolean isAllCaps, Cleanable cleaner) {
 		if (pointer < word.length()) {
 			
@@ -195,6 +205,7 @@ public class DictionarySingleton  {
 				return addWordToDictionary(word, context, pointer + 1, isAllCaps, cleaner);
 				
 			} else {
+				
 				// We found a valid letter. Add it to the dictionary
 				DictionaryNode newContext = context.getChild(letter);
 				if (newContext == null) {
@@ -211,6 +222,55 @@ public class DictionarySingleton  {
 			context.markAsWord();
 		}
 		return true;
+	}
+
+	/*
+	 * @return true if 'context' is empty (no children and is not a word itself. False otherwise
+	 */
+	private boolean removeWordFromDictionary(String word, DictionaryNode context, int pointer, boolean isAllCaps, Cleanable cleaner) {
+		if (pointer < word.length()) {
+			
+			char letter = word.charAt(pointer);
+			isAllCaps = isAllCaps && (letter >= 'A' && letter <= 'Z');
+			
+			letter = cleaner.cleanup(letter);
+			
+			if (letter == Cleanable.SKIP_THIS_WORD) {
+				return false;
+			}
+			if (letter == Cleanable.SKIP_THIS_CHARACTER) {
+				// This is a character that will be skipped in this language. 
+				// Go straight to the next one.
+				return removeWordFromDictionary(word, context, pointer + 1, isAllCaps, cleaner);
+				
+			} else {
+				// We found a valid letter. Add it to the dictionary
+				DictionaryNode newContext = context.getChild(letter);
+				if (newContext != null) {
+					
+					if (removeWordFromDictionary(word, newContext, pointer + 1, isAllCaps, cleaner)) {
+						// newContext is empty. It may be destroyed
+						context.removeDictionaryNode(letter);
+						
+						if (context.hasNoChildren() && !context.isWord() ) {
+							// The current node (context) is also empty. It may be destroyed 
+							// as well by its parent
+							return true;
+						}
+					} 
+				}
+			}
+		} else if (isAllCaps) {
+			return false;
+		} else {
+			if (context.hasNoChildren()) {
+				// The current node (context) is also empty. It may be destroyed 
+				// as well by its parent
+				return true;
+			}
+			context.removeMarkAsWord();
+		}
+		return false;
 	}
 
 	private DictionaryNode getPrefixFromDictionary(String word, DictionaryNode context, int pointer) {
