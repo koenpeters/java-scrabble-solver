@@ -57,9 +57,11 @@ class TrayExtracter extends AbstractExtracter {
 		if (isLetter) {
 			BufferedImage box = croppedBlackAndWhiteImage.getSubimage(x, y, trayBoxCrop.getWidth(), trayBoxCrop.getHeight());
 			applyPhotographicNegative(box);
+			//writeImage(box, "tray-(" + col + ")");
+
 			String text = ocrScannerLettersTray.scan(box, 0, 0, 0, 0, null);
 			text = text.replaceAll(" ", "");
-			//writeImage(box, "tray-(" + col + ")");
+			
 			if (text.length() > 0) {
 				return text.charAt(0);
 			} else {
