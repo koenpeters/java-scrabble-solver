@@ -6,6 +6,8 @@ import java.util.Collection;
 import org.apache.log4j.Logger;
 
 /**
+ * Util class that provides static methods to simplify the validation of parameters. 
+ * 
  * @author Koen Peters, Cubix Concepts
  */
 public class ParamValidationUtil {
@@ -51,7 +53,7 @@ public class ParamValidationUtil {
 		Logger logger	= Logger.getLogger(ParamValidationUtil.class.getName());
 		String path		= absoluteRoot + dir;
 		
-		//1) Check if the directory immedialtly starts with the name and not with \
+		//1) Check if the directory immediately starts with the name and not with \
 		// 2) Check if the directory ends with a \ or /
 		if (!dir.endsWith("\\") && !dir.endsWith("/")) {
 			throw new IllegalArgumentException(dir + " must end with a  \\ or a /.");
