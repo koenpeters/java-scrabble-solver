@@ -13,7 +13,9 @@ import org.apache.log4j.Logger;
 public class ParamValidationUtil {
 	
 	private ParamValidationUtil() {
-		// Cannot be instantiated
+		// Private constructor to prevent instantiation. Don't use an abstract class because 
+		// abstract classes can be subclassed (what we don't want) and abstract final is not 
+		// a valid definition. 
 	}
 	public static void validateParamNotNull(Object param, String paramName) {
 		if (param == null) {
