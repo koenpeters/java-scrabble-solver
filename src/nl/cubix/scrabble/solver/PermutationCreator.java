@@ -93,7 +93,7 @@ final class PermutationCreator {
 	 */
 	private void permutate(Word wordInLastRecursion, String unusedLetters, DictionaryNode oldNode, Set<Word> possibilities) {
 
-		for (int i = 0; i < unusedLetters.length(); i++){
+		for (int i = 0; i < unusedLetters.length(); i++) {
 
 			char letterFromUnusedLetters = unusedLetters.charAt(i);
 			char[] lettersToTestInThisRecursion = (letterFromUnusedLetters == Word.JOKER? A_TO_Z: new char[] {letterFromUnusedLetters});
@@ -116,6 +116,7 @@ final class PermutationCreator {
 					// checked in the previous recursion , so we only need to check the unchecked (new) part
 					uncheckedPart = newWord.getPrimaryWord().substring(wordInLastRecursion.getPrimaryWord().length());
 				}
+				
 				
 				// All the letters in the primary word of 'wordInLastRecursion' have been checked against the dictionary
 				// in the previous iteration, resulting in the 'oldNode' starting position in the dictionary. Now we check 

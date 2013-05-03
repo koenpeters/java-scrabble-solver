@@ -48,16 +48,26 @@ public class UploadServlet extends HttpServlet {
 		Map<String, FileItem> params = saveRequest(req);
 		timingSingleton.stop(this, 1);
 		
-		timingSingleton.start(this, 2);
 		// Get the values of the sent request parameters
 		String deviceType = params.get("deviceType").getString();
 		String language = params.get("language").getString();
 		File imageOfBoard = ((DiskFileItem)params.get("imageOfBoard")).getStoreLocation();
 		Integer maxNrOfSolutions = Integer.parseInt(params.get("maxNrOfSolutions").getString());
+
 		
-		// Get all the solutions to the sent screen
-		Solution solution = solve(imageOfBoard, deviceType, language);
+		timingSingleton.start(this, 2);
+		
+		// We detect the type of board that is used (iPhone, android, etc)
+		GameDectector dectector = new GameDectector();
+		TemplateType templateType = dectector.detect(imageOfBoard, deviceType, language);
+		
+		ExtractedImage extractedImage = extractBoardFromImage(imageOfBoard, templateType);
 		timingSingleton.stop(this, 2);
+		
+		
+		timingSingleton.start(this, 3);
+		Solution solution = solveBoard(extractedImage, language, templateType);
+		timingSingleton.stop(this, 3);
 		
 		// Save the solutions and templateType for the view to process
 		req.setAttribute("templateType", solution.templateType);
@@ -97,16 +107,12 @@ public class UploadServlet extends HttpServlet {
 	}
 	
 	
-	private Solution solve(File imageOfBoard, String deviceType, String language) throws ServletException {
-		
-		
-		GameDectector dectector = new GameDectector();
-		TemplateType templateType = dectector.detect(imageOfBoard, deviceType, language);
-		
+	private ExtractedImage extractBoardFromImage(File imageOfBoard, TemplateType templateType) throws ServletException {
 		Extracter extracter = new Extracter();
-		ExtractedImage extractedImage = extracter.extract(imageOfBoard, templateType);
-		
-		
+		return extracter.extract(imageOfBoard, templateType);
+	}
+	
+	private Solution solveBoard(ExtractedImage extractedImage, String language, TemplateType templateType) throws ServletException {
 		String dictionary = "";
 		String scoringSystemName = "";
 		
@@ -127,9 +133,9 @@ public class UploadServlet extends HttpServlet {
 		result.templateType = templateType;
 		result.solutions = solutions;
 		result.extractedImage = extractedImage;
+		
 		return result;
 	}
-	
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)

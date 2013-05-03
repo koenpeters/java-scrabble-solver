@@ -151,7 +151,7 @@ public class Board {
 	 */
 	public boolean isPossibleFit(Coordinate coordinate, Word.DirectionEnum direction, String letters) {
 		if (!getBox(coordinate.getRow(), coordinate.getCol()).isEmpty()) {
-			// The box at the startcoordinate is empty. It is not a possible startingpoint for a new word
+			// The box at the start coordinate is empty. It is not a possible starting point for a new word
 			return false;
 		} else {
 			// We check if when we lay out all the letters there will be a connection to the existing letters
@@ -638,7 +638,8 @@ public class Board {
 	 * Determines of the letters are connected to the existing structure. 
 	 * Also see the other isConnectedToExistingStructure method.
 	 * 
-	 * @param scoringSystem	The scoring system to be used.
+	 * @param tr			The transposition of the board (normal or transposed) and the starting 
+	 * 						position in that board that must be used to test for being connected.
 	 * @param letters		The letters to be placed on the board, possibly containing jokers
 	 * @return	True if the structure is connected, false otherwise
 	 */
@@ -647,7 +648,7 @@ public class Board {
 		if (isEmpty) {
 			int i=0;
 			while (tr.startCol + i < dimension && i < letters.length() ) {
-				// Check if the cell itself is the starting position
+				// Check if the current cell itself is the starting position
 				if (tr.matrixToUse[tr.startRow][tr.startCol + i].isStartingPosition()) {
 					return true;
 				}
@@ -688,7 +689,7 @@ public class Board {
 
 	/** Depending on the direction of the word we need to either go horizontal or vertical while doing our
 	 * 	calculations. To make it easier for ourselves we use the normal of the transposed matrix, so we can 
-	 * 	treat both cases as the horizontal case. This class calculates which one to use dependng on the given 
+	 * 	treat both cases as the horizontal case. This class calculates which one to use depending on the given 
 	 *  word.
 	 */ 
 	private class Transposition {

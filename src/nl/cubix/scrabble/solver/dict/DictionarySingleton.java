@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import nl.cubix.scrabble.config.ConfigListener;
 import nl.cubix.scrabble.solver.dict.cleaner.Cleanable;
@@ -21,7 +20,6 @@ import nl.cubix.scrabble.solver.dict.cleaner.CleanerFactory;
 import nl.cubix.scrabble.util.ParamValidationUtil;
 import nl.cubix.scrabble.util.TimingSingleton;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
@@ -180,8 +178,8 @@ public class DictionarySingleton  {
 		}
 		
 		timing.stop(this, timingId);
-		log.info("Read " + dictionaryFile.getName() + ", containing " + nrOfWords + " words and " + dictionary.getNrOfSubNodes() + " nodes in " + timing.getTime(this, timingId)+ " msec.");
-		
+		log.info("Read " + dictionaryFile.getName() + ", containing " + nrOfWords + " words and " + dictionary.getNrOfSubNodes() 
+				+ " nodes in " + timing.getTime(this, timingId));
 		return dictionary;
 	}
 	
