@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Does word exist tester</title>
+	<title>Solve board</title>
 	<meta name="description" content="" /> 
 	<meta name="keywords" content="" />
 	<script>
