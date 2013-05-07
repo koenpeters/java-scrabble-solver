@@ -7,8 +7,8 @@ import java.util.Set;
 
 import nl.cubix.scrabble.solver.datastructures.Board;
 import nl.cubix.scrabble.solver.datastructures.Word;
-import nl.cubix.scrabble.solver.dict.DictionaryNode;
 import nl.cubix.scrabble.solver.dict.DictionarySingleton;
+import nl.cubix.scrabble.solver.dict.node.DictionaryNode;
 import nl.cubix.scrabble.solver.scoring.Scoring;
 import nl.cubix.scrabble.solver.scoring.ScoringSingleton;
 import nl.cubix.scrabble.util.ParamValidationUtil;

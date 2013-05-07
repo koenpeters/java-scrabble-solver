@@ -5,6 +5,8 @@
 		Just copy this file into the directory as specified in 'config.xml and change any values you like'
 	-->
 
+	<show-memory-footprint>true</show-memory-footprint>
+	<dictionary-node-type>FLEX_LIST</dictionary-node-type>
 	<data-folder>c:\data\wordfeud\</data-folder>
 	<dictionaries-folder>dictionaries\</dictionaries-folder>	
 	<scoring-folder>scoring\</scoring-folder>

@@ -8,8 +8,8 @@ import nl.cubix.scrabble.solver.datastructures.Board;
 import nl.cubix.scrabble.solver.datastructures.Coordinate;
 import nl.cubix.scrabble.solver.datastructures.Word;
 import nl.cubix.scrabble.solver.datastructures.Word.DirectionEnum;
-import nl.cubix.scrabble.solver.dict.DictionaryNode;
 import nl.cubix.scrabble.solver.dict.DictionarySingleton;
+import nl.cubix.scrabble.solver.dict.node.DictionaryNode;
 import nl.cubix.scrabble.util.ParamValidationUtil;
 
 import org.apache.log4j.Logger;

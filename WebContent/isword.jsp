@@ -1,5 +1,4 @@
-<%@page import="nl.cubix.scrabble.solver.dict.DictionarySingleton"%><%@page import="nl.cubix.scrabble.solver.dict.DictionaryNode"%><%
-	String word = request.getParameter("word");
+<%@page import="nl.cubix.scrabble.solver.dict.node.DictionaryNode"%><%@page import="nl.cubix.scrabble.solver.dict.DictionarySingleton"%><%String word = request.getParameter("word");
 	String dictionaryName = request.getParameter("dictionaryName");
 	boolean listSubWords = request.getParameter("listSubWords") != null;
 
@@ -15,8 +14,7 @@
 		}
 		DictionaryNode wholeDictionary = dictionarySingleton.getDictionary(dictionaryName);
 		result = dictionarySingleton.getDictionarySubsetOfPrefix(word, wholeDictionary);
-	}
-%>
+	}%>
 
 <!DOCTYPE html>
 <html>
@@ -47,13 +45,17 @@
 	
 	<% 	if (word != null) { %>
 			<br/>
-			Does word exist: <%= (result == null || !result.isWord()? "nope": "yup") %>
+			Does word exist: <%= (result == null || !result.isWord()? "nope": "yup") %></br>
+			Prefix: 
+			<% if (result != null) { 
+				out.println(result.getNrOfWords());
+			}  %>
 			<br/>
 			<%	if (listSubWords) { %>
 					All words starting with this word:
 					<blockquote>
 					<%	if (result != null) {
-							String allWords = result.toString(word);
+							String allWords = result.toString();
 							out.println(allWords.replaceAll("\\n", "<br/>"));
 						} %>
 					</blockquote>
