@@ -18,9 +18,10 @@ public abstract class AbstractDictionaryNode implements DictionaryNode {
 
 	/*
 	 * Stores per occurrence amount all words that contain this letter including all
-	 * preceding letters. Using this map you can ask quations like: "give me all words that "
-	 * have at least X time the occurence of the substring 'abc' in it. 
-	 * For instance: a word that only has one occurrence 
+	 * preceding letters. Using this structure you can ask questions like: "give me all 
+	 * words that have at least X time the occurrence of the substring 'abc' in it.". 
+	 * A word is represented by the last Node of that word. Using the parentNode we 
+	 * can reconstruct the actual word when needed.
 	 */
 	private Map<Integer, HashSet<DictionaryNode>> WordsPerOccurenceAmount = null;
 	
