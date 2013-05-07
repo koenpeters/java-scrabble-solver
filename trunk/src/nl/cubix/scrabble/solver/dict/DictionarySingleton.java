@@ -16,20 +16,25 @@ import java.util.Map;
 
 import nl.cubix.scrabble.config.ConfigListener;
 import nl.cubix.scrabble.solver.dict.cleaner.Cleanable;
-import nl.cubix.scrabble.solver.dict.cleaner.CleanerFactory;
+import nl.cubix.scrabble.solver.dict.cleaner.CleanerType;
+import nl.cubix.scrabble.solver.dict.node.DictionaryNode;
+import nl.cubix.scrabble.solver.dict.node.DictionaryNodeType;
 import nl.cubix.scrabble.util.ParamValidationUtil;
 import nl.cubix.scrabble.util.TimingSingleton;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
+import com.javamex.classmexer.MemoryUtil;
+
 /**
  * @author Koen Peters, Cubix Concepts
  */
 public class DictionarySingleton  {
-	private Map<String, DictionaryNode> dictionaries = new HashMap<String, DictionaryNode>();
+	private Map <String, DictionaryNode> dictionaries = new HashMap<String, DictionaryNode>();
 	private static Logger log = Logger.getLogger(DictionarySingleton.class);
 	private static final String ADDITIONAL_WORDS_FILENAME_ADDITION = "-ext";
+	private static final DictionaryNodeType dictionaryNodeType = ConfigListener.getConfiguration().getDictionaryNodeType();
 	
 	// Private constructor prevents instantiation from other classes
 	private DictionarySingleton() {
@@ -97,7 +102,12 @@ public class DictionarySingleton  {
 		});
 		
 		for (File dictionaryFile: dictionaryFiles) {
-			DictionaryNode dictionary = new DictionaryNode();
+			DictionaryNode dictionary = dictionaryNodeType.getRootInstance();
+
+			int timingId = 1;
+			TimingSingleton timing = TimingSingleton.getInstance();
+			timing.reset(this, timingId);
+			timing.start(this, timingId);
 			
 			// Read the main dictionary file
 			readOneDictionaryFileFromDisk(dictionaryFile, dictionary, false);
@@ -110,7 +120,27 @@ public class DictionarySingleton  {
 				readOneDictionaryFileFromDisk(additonalWords, dictionary, true);
 			}
 
-			// Save both files to the same dictionary
+			// We're done creating the whole dictionary. We can now optimize it internally
+			// because we know nothing will we added to it anymore.
+			dictionary.postFillOptimize();
+
+			timing.stop(this, timingId);
+			
+			String memoryFootprint = "";
+			if (ConfigListener.getConfiguration().getShowMemoryFootprint()) {
+				try {
+					memoryFootprint = ", using " + MemoryUtil.deepMemoryUsageOf(dictionary) + " bytes of memory";
+				} catch (Exception e) {
+					log.info("Error determining the memory footprint of dictionary " + dictionaryFile.getName() + "." + 
+							" Are you sure you added the -javaagent:c:\\path\\to\\classmexer.jar to the tomcat VM arguments?");
+				}
+			}
+			
+			log.info("Read " + dictionaryFile.getName() + ", containing " + dictionary.getNrOfWords() + " words and " + dictionary.getNrOfNodes() 
+					+ " nodes in " + timing.getTime(this, timingId) + " msec" + memoryFootprint);
+			
+			
+			// The result of applying both files to the same dictionary is now stored in the list of available dictionaries.
 			String fileNameWithoutExtension = FilenameUtils.removeExtension(dictionaryFile.getName());
 			dictionaries.put(fileNameWithoutExtension, dictionary);
 		}
@@ -123,19 +153,14 @@ public class DictionarySingleton  {
 			throw new RuntimeException("Dictionaryfile " + dictionaryFile.getAbsolutePath() + " cannot be read.");
 		}
 		
-		int timingId = 1;
-		TimingSingleton timing = TimingSingleton.getInstance();
-		timing.reset(this, timingId);
-		timing.start(this, timingId);
 		
 		// Extract the language code from the filename. It is the first part before 
 		// the first "-" character. Use the code to determine what type of cleaner
-		// we need fot this dictionary
+		// we need for this dictionary
 		String[] parts = dictionaryFile.getName().split("-");
-		Cleanable cleaner = CleanerFactory.getInstance(parts[0]);
+		CleanerType cleanerType = CleanerType.valueOf(parts[0].toUpperCase());
+		Cleanable cleaner = cleanerType.getInstance();
 		
-		int nrOfWords = 0;
-		boolean removeWord;
 		InputStream is;
 		try {
 			is = new FileInputStream(dictionaryFile);
@@ -147,19 +172,13 @@ public class DictionarySingleton  {
 						line = br.readLine();
 						if (line != null) {
 							line = line.trim();
-							if (line.length() > 1) {
 								
-								if (isAdditional && line.startsWith("-")) {
-									// if we are processing the additional file and the word starts with a minus (-)
-									// then we need to remove the word form the dictionary. 
-									removeWordFromDictionary(line.substring(1), dictionary, 0, true, cleaner);
-								} else {
-									if (addWordToDictionary(line, dictionary, 0, true, cleaner)) {
-										nrOfWords++;
-									} else {
-										//log.info("skipped word (" + line + ")");
-									}
-								}
+							if (isAdditional && line.startsWith("-")) {
+								// if we are processing the additional file and the word starts with a minus (-)
+								// then we need to remove the word form the dictionary. 
+								removeWordFromDictionary(line.substring(1), dictionary, 0, true, cleaner);
+							} else {
+								addWordToDictionary(line, dictionary, 0, true, cleaner, 0);
 							}
 						}
 					}
@@ -177,21 +196,22 @@ public class DictionarySingleton  {
 			throw new RuntimeException(e);
 		}
 		
-		timing.stop(this, timingId);
-		log.info("Read " + dictionaryFile.getName() + ", containing " + nrOfWords + " words and " + dictionary.getNrOfSubNodes() 
-				+ " nodes in " + timing.getTime(this, timingId));
 		return dictionary;
 	}
 	
 	/*
 	 * @return true if word was added to context. False otherwise
 	 */
-	private boolean addWordToDictionary(String word, DictionaryNode context, int pointer, boolean isAllCaps, Cleanable cleaner) {
+	private boolean addWordToDictionary(String word, DictionaryNode context, int pointer, boolean isAllCaps, Cleanable cleaner, int nettLength) {
 		if (pointer < word.length()) {
 			
 			char letter = word.charAt(pointer);
+			
+			// We skip words that are in all caps, because they are 
+			// abbreviations and cannot be used as normal words
 			isAllCaps = isAllCaps && (letter >= 'A' && letter <= 'Z');
 			
+			// Fix non a-z chars
 			letter = cleaner.cleanup(letter);
 			
 			if (letter == Cleanable.SKIP_THIS_WORD) {
@@ -200,24 +220,27 @@ public class DictionarySingleton  {
 			if (letter == Cleanable.SKIP_THIS_CHARACTER) {
 				// This is a character that will be skipped in this language. 
 				// Go straight to the next one.
-				return addWordToDictionary(word, context, pointer + 1, isAllCaps, cleaner);
+				return addWordToDictionary(word, context, pointer + 1, isAllCaps, cleaner, nettLength);
 				
 			} else {
 				
 				// We found a valid letter. Add it to the dictionary
-				DictionaryNode newContext = context.getChild(letter);
+				DictionaryNode newContext = context.getSubNode(letter);
 				if (newContext == null) {
-					newContext = new DictionaryNode();
+					newContext = dictionaryNodeType.getInstance(context, letter);
 				}
-				if (!addWordToDictionary(word, newContext, pointer + 1, isAllCaps, cleaner)) {
+				if (!addWordToDictionary(word, newContext, pointer + 1, isAllCaps, cleaner, nettLength + 1)) {
 					return false;
 				}
-				context.setDictionaryNode(letter, newContext);
+				context.setSubNode(letter, newContext);
 			}
 		} else if (isAllCaps) {
 			return false;
 		} else {
-			context.markAsWord();
+			// We only add words of which at least two characters have been added to the dictionary
+			if (nettLength > 1) {
+				context.isWord(true);
+			}
 		}
 		return true;
 	}
@@ -243,14 +266,14 @@ public class DictionarySingleton  {
 				
 			} else {
 				// We found a valid letter. Add it to the dictionary
-				DictionaryNode newContext = context.getChild(letter);
+				DictionaryNode newContext = context.getSubNode(letter);
 				if (newContext != null) {
 					
 					if (removeWordFromDictionary(word, newContext, pointer + 1, isAllCaps, cleaner)) {
 						// newContext is empty. It may be destroyed
-						context.removeDictionaryNode(letter);
+						context.removeSubNode(letter);
 						
-						if (context.hasNoChildren() && !context.isWord() ) {
+						if (context.hasNoSubNodes() && !context.isWord() ) {
 							// The current node (context) is also empty. It may be destroyed 
 							// as well by its parent
 							return true;
@@ -261,12 +284,12 @@ public class DictionarySingleton  {
 		} else if (isAllCaps) {
 			return false;
 		} else {
-			if (context.hasNoChildren()) {
+			if (context.hasNoSubNodes()) {
 				// The current node (context) is also empty. It may be destroyed 
 				// as well by its parent
 				return true;
 			}
-			context.removeMarkAsWord();
+			context.isWord(false);
 		}
 		return false;
 	}
@@ -274,7 +297,7 @@ public class DictionarySingleton  {
 	private DictionaryNode getPrefixFromDictionary(String word, DictionaryNode context, int pointer) {
 		if (pointer < word.length()) {
 			char letter = word.charAt(pointer);
-			DictionaryNode newContext = context.getChild(letter);
+			DictionaryNode newContext = context.getSubNode(letter);
 			if (newContext == null) {
 				return null;
 			}

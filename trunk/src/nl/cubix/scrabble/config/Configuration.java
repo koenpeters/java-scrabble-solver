@@ -1,5 +1,6 @@
 package nl.cubix.scrabble.config;
 
+import nl.cubix.scrabble.solver.dict.node.DictionaryNodeType;
 import nl.cubix.scrabble.util.ParamValidationUtil;
 
 import org.apache.commons.configuration.AbstractConfiguration;
@@ -13,6 +14,8 @@ import org.apache.log4j.Logger;
 public class Configuration {
 	private static Logger logger = Logger.getLogger(Configuration.class.getName());
 
+	private Boolean showMemoryFootprint;
+	private DictionaryNodeType dictionaryNodeType;
 	private String dataFolder;
 	private String dictionariesFolder;
 	private String scoringFolder;
@@ -24,6 +27,12 @@ public class Configuration {
 	
 	public Configuration(AbstractConfiguration config) {
 		logger.info("starting reading ApplicationConfiguration");
+
+		this.showMemoryFootprint = config.getBoolean("show-memory-footprint");
+		logger.info("Setting showMemoryFootprint to " + this.showMemoryFootprint);
+
+		this.dictionaryNodeType = DictionaryNodeType.valueOf(config.getString("dictionary-node-type"));
+		logger.info("Setting dictionaryNodeType to " + this.dictionaryNodeType);
 
 		this.dataFolder = config.getString("data-folder");
 		ParamValidationUtil.validateAsADirectory("", getDataFolder(), false);
@@ -57,6 +66,15 @@ public class Configuration {
 		logger.info("Setting deviceConfig to " + this.deviceConfig.toString());
 
 		logger.info("finished reading ApplicationConfiguration");
+	}
+	
+	
+	public DictionaryNodeType getDictionaryNodeType() {
+		return dictionaryNodeType;
+	}
+	
+	public Boolean getShowMemoryFootprint() {
+		return showMemoryFootprint;
 	}
 	
 	public String getDataFolder() {
