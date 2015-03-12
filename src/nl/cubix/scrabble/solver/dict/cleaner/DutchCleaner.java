@@ -1,13 +1,13 @@
 package nl.cubix.scrabble.solver.dict.cleaner;
 
 public class DutchCleaner extends AbstractCleaner {
-	protected static char[][] dutchAccents = 	{	{'ä', 'a'}, {'à', 'a'}, {'á', 'a'}, {'â', 'a'}
-													,{'ë', 'e'}, {'è', 'e'}, {'é', 'e'}, {'ê', 'e'}
-													,{'ö', 'o'}, {'ò', 'o'}, {'ó', 'o'}, {'ô', 'o'}
-													,{'ü', 'u'}, {'ù', 'u'}, {'ú', 'u'}, {'û', 'u'}
-													,{'ï', 'i'}, {'ì', 'i'}, {'í', 'i'}, {'î', 'i'}
-													,{'ÿ', 'y'}
-													,{'ç', 'c'}
+	  protected static char[][] dutchAccents =  { {'Ã¤', 'a'}, {'Ã ', 'a'}, {'Ã¡', 'a'}, {'Ã¢', 'a'}
+											      ,{'Ã«', 'e'}, {'Ã¨', 'e'}, {'Ã©', 'e'}, {'Ãª', 'e'}
+											      ,{'Ã¶', 'o'}, {'Ã²', 'o'}, {'Ã³', 'o'}, {'Ã´', 'o'}
+											      ,{'Ã¼', 'u'}, {'Ã¹', 'u'}, {'Ãº', 'u'}, {'Ã»', 'u'}
+											      ,{'Ã¯', 'i'}, {'Ã¬', 'i'}, {'Ã­', 'i'}, {'Ã®', 'i'}
+											      ,{'Ã¿', 'y'}
+											      ,{'Ã§', 'c'}
 												};
 
 	public DutchCleaner() {
